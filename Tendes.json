@@ -1,0 +1,10 @@
+[
+  {
+    "name": "a",
+    "description": "a",
+    "since": 3,
+    "earnings": 0.0,
+    "businessModel": "MAX_PROFIT",
+    "catalogue": []
+  }
+]
