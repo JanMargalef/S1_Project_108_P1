@@ -16,7 +16,7 @@ public class TendaGeneral extends Tenda{
      * @param modelNegoci model de negoci de la tenda
      * @param catalogue   catalog de la tenda
      */
-    public TendaGeneral(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<ProducteTenda> catalogue) {
+    public TendaGeneral(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<Producte> catalogue) {
         super(nom, descripcio, anyFundacio, ganacies, modelNegoci, catalogue);
     }
 
@@ -29,7 +29,7 @@ public class TendaGeneral extends Tenda{
      * @param modelNegoci
      * @param catalogue
      */
-    public TendaGeneral(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<ProducteTenda> catalogue) {
+    public TendaGeneral(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<Producte> catalogue) {
         super(nom, descripcio, anyFundacio, modelNegoci, catalogue);
     }
 

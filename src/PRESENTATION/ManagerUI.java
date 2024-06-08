@@ -2,7 +2,6 @@ package PRESENTATION;
 
 import BUSSINESS.Carret;
 import BUSSINESS.ENTITIES.Producte;
-import BUSSINESS.ENTITIES.ProducteTenda;
 import BUSSINESS.ENTITIES.Tenda;
 
 import java.util.ArrayList;
@@ -409,30 +408,34 @@ public class ManagerUI {
         try {
             option = Integer.parseInt(this.scanner.nextLine()) - 1;
 
+            if (option < productes.size()) {
+                System.out.print("Are you sure you want to remove \"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\"? ");
+                String confirmation = this.scanner.nextLine().toLowerCase();
 
-            if (option < productes.size()) { //  // comprovem que ho vol eliminar i passem el numero de la posicio del producte
-                System.out.print("Are you sure you want to remove \"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\"?");
-                switch (this.scanner.nextLine().toLowerCase()) {
-                    case "yes":
-                        System.out.print("\"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\" has been withdrawn from sale.");
-                        return option;
-
-                    case "no":
-                        return productes.size(); // en cas de que no vulgui passem la dimensio de l'array ja que al if de controller tampoc entrarà
-
+                while (!confirmation.equals("yes") && !confirmation.equals("no")) {
+                    System.out.println("Please enter 'yes' or 'no'.");
+                    System.out.print("Are you sure you want to remove \"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\"? ");
+                    confirmation = this.scanner.nextLine().toLowerCase();
                 }
-            } else if (option == productes.size()) {// en cas de que no vulgui passem la dimensio de l'array ja que al if de controller tampoc entrarà
+
+                if (confirmation.equals("yes")) {
+                    System.out.print("\"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\" has been withdrawn from sale.");
+                    return option;
+                } else if (confirmation.equals("no")) {
+                    return productes.size();
+                }
+            } else if (option == productes.size()) {
                 return productes.size();
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR: Error, enter a valid option");
+            System.out.println("ERROR: Please enter a valid option.");
         }
 
-        System.out.println("ERROR: Error, enter a valid option");
-
+        System.out.println("ERROR: Please enter a valid option.");
 
         return productes.size();
+
     }
 
     /**
@@ -562,11 +565,11 @@ public class ManagerUI {
      * Aquesta funcio mostra el cataleg de la tenda que sha seleccionat  retornant quin d'aquests s'ha de eliminar
      * @param tendas es passa el arrayList complet de totes les tendes
      * @param nom es pasa el nom de la tenda que es vol veure
-     * @return retorna el objecte ProducteTenda el qual ha de ser eliminat
+     * @return retorna el objecte Producte el qual ha de ser eliminat
      */
-    public ProducteTenda requestmostrarCatalegTenda(ArrayList<Tenda> tendas, String nom) {
+    public Producte requestmostrarCatalegTenda(ArrayList<Tenda> tendas, String nom) {
         int option;
-        ArrayList<ProducteTenda> cataleg = new ArrayList<>();
+        ArrayList<Producte> cataleg = new ArrayList<>();
         System.out.println("This shop sells the following products: ");
 
         for (Tenda tendes : tendas) {
@@ -621,11 +624,11 @@ public class ManagerUI {
                 System.out.println("   " + (contador + 1) + ") " + productesTrobats.get(contador).getName() + "\" by " + "\"" + productesTrobats.get(contador).getBrand() + "\"");
                 // mostrem el producte
                 for (int x = 0; x < tendes.size(); x++) { // busquem aquest producte al cataleg de les tendes
-                    ArrayList<ProducteTenda> catalog = tendes.get(x).getCatalogue();
+                    ArrayList<Producte> catalog = tendes.get(x).getCatalogue();
                     for (int i = 0; i < catalog.size(); i++) {
                         if ((  catalog.get(i).getName().equals(productesTrobats.get(contador).getName()))) {
                             String nomTenda = tendes.get(x).getName();
-                            float price = catalog.get(i).getPreuTenda();
+                            float price = catalog.get(i).getPreuIva();
 
                             System.out.println("Sold at:\n" +
                                     "    - " + nomTenda + ": " + price + "\n");
@@ -886,7 +889,7 @@ public class ManagerUI {
         System.out.println("\nYour cart contains the following items:\n");
         for(int i = 0; i < carret.getProductesCarrito().size(); i++){
             System.out.println("\t- \"" + carret.getProductesCarrito().get(i).getName() + "\" by \"" + carret.getProductesCarrito().get(i).getBrand() + "\"");
-            System.out.println("\t\tPrice: " + carret.getProductesCarrito().get(i).getPreuTenda() + "\"\n");
+            System.out.println("\t\tPrice: " + carret.getProductesCarrito().get(i).getPreuIva() + "\"\n");
         }
 
         System.out.println("Total: " + clientTotal + "\n");
@@ -933,12 +936,12 @@ public class ManagerUI {
      * @param carrito carrito on estan els productes comprats per l'usuari
      * @param tendes arraylist de tendes on estan totes les tendes per mostrar les ganaces que han tingut
      */
-    public void checkoutCompra(ArrayList<ProducteTenda> carrito, ArrayList<Tenda> tendes){
-        for (ProducteTenda carret: carrito) {
+    public void checkoutCompra(ArrayList<Producte> carrito, ArrayList<Tenda> tendes){
+        for (Producte carret: carrito) {
             for (Tenda tenda: tendes) {
-                if(carret.getTenda().equals(tenda.getName())){
-                    System.out.println("\"" + tenda.getName() + "\" has earned " + carret.getPreuTenda() + " for an historic total of " + tenda.getEarnings());
-                }
+//                if(carret.getTenda().equals(tenda.getName())){
+//                    System.out.println("\"" + tenda.getName() + "\" has earned " + carret.getPreuIva() + " for an historic total of " + tenda.getEarnings());
+//                }
 
             }
 

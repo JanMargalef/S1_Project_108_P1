@@ -1,7 +1,6 @@
 package PRESENTATION;
 
 import BUSSINESS.ENTITIES.Producte;
-import BUSSINESS.ENTITIES.ProducteTenda;
 import BUSSINESS.ProductManager;
 import BUSSINESS.TendaManager;
 
@@ -72,7 +71,7 @@ public class Controller {
 
                 case MenuOpcions.CARRITO:
                     loadFiles();
-                    carrito();
+                    //carrito();
                     saveFiles();
                     break;
 
@@ -176,33 +175,33 @@ public class Controller {
 
 
 
-    private void carrito() {
-        switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.calculCarretClientTenda(false))){
-            case 1:
-                if(managerUI.makeSure("checkout")){
-                    managerTenda.checkout();
-                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes());
-                    managerTenda.clearCart();
-                    managerUI.clearCartDone();
-                }
-                break;
-
-            case 2:
-                if(managerUI.makeSure("clear your cart")) {
-                    managerTenda.clearCart();
-                    managerUI.clearCartDone();
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
+//    private void carrito() {
+//        switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.calculCarretClientTenda(false))){
+//            case 1:
+//                if(managerUI.makeSure("checkout")){
+//                    managerTenda.checkout();
+//                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes());
+//                    managerTenda.clearCart();
+//                    managerUI.clearCartDone();
+//                }
+//                break;
+//
+//            case 2:
+//                if(managerUI.makeSure("clear your cart")) {
+//                    managerTenda.clearCart();
+//                    managerUI.clearCartDone();
+//                }
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
 
     private void llistarTendes() {
         int indexTenda = 0;
         int indexProduct = 0;
-        ProducteTenda producteTenda;
+        Producte Producte;
 
         while(indexTenda != -1){
             indexTenda = managerUI.requestShops(managerTenda.getTendes());
@@ -211,19 +210,19 @@ public class Controller {
                 indexProduct = managerUI.requestProduct(managerTenda.getTendes().get(indexTenda));
                 if(indexProduct < managerTenda.getTendes().get(indexTenda).getCatalogue().size()){
                     //producte = managerTenda.getTendes().get(indexTenda).getCatalogue().get(indexProduct);
-                    producteTenda = managerTenda.getTendes().get(indexTenda).getCatalogue().get(indexProduct);
+                    Producte = managerTenda.getTendes().get(indexTenda).getCatalogue().get(indexProduct);
 
                     switch(managerUI.requestOperation()){
                         case 1:
-                            managerUI.showReviews(producteTenda.getName(), managerProducte.getProductes());
+                            managerUI.showReviews(Producte.getName(), managerProducte.getProductes());
                             break;
 
                         case 2:
-                            managerProducte.addReviews(producteTenda.getName(), managerUI.reviewStars(), managerUI.reviewText(producteTenda));
+                            managerProducte.addReviews(Producte.getName(), managerUI.reviewStars(), managerUI.reviewText(Producte));
                             break;
 
                         case 3:
-                            managerTenda.addToCarret(producteTenda);
+                            managerTenda.addToCarret(Producte);
                             break;
                     }
                     indexTenda = -1;
@@ -329,7 +328,7 @@ public class Controller {
                     nomOK = managerTenda.comprovarExisteincia(nomTenda);
                 }while (!managerUI.tendaNoExistent(nomOK));// passa per enviar el missatge de que esta malament si es necessari
 
-                ProducteTenda selection = managerUI.requestmostrarCatalegTenda(managerTenda.getTendes(), nomTenda);
+                Producte selection = managerUI.requestmostrarCatalegTenda(managerTenda.getTendes(), nomTenda);
                 if(selection == null){
                     select = MenuGestioTendes.BACK;
                 }else{
@@ -368,7 +367,9 @@ public class Controller {
             case BORRAR_PRODUCTE:
                 loadFiles();
                 int index = managerUI.requestDeleteProducte(managerProducte.getProductes());
-
+                if(managerProducte.getProductes().isEmpty()){
+                    break;
+                }
                 if(index < managerProducte.getProductes().size()){
                     String name = managerProducte.getNameProduct(index);
                     managerProducte.removeProducte(index);

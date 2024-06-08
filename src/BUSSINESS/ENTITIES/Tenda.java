@@ -12,9 +12,7 @@ public class Tenda {
     private int since;
     private float earnings;
     private String businessModel;
-    //private String sponsoredBrand;
-    //private float loyaltyThreshold;
-    private ArrayList<ProducteTenda> catalogue = new ArrayList<>();
+    private ArrayList<Producte> catalogue = new ArrayList<>();
 
 
     //*********************************__CONSTRUCTORS__**********************************************************************
@@ -28,7 +26,7 @@ public class Tenda {
      * @param modelNegoci model de negoci de la tenda
      * @param catalogue catalog de la tenda
      */
-    public Tenda(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<ProducteTenda> catalogue) {
+    public Tenda(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<Producte> catalogue) {
         this.name = nom;
         this.description = descripcio;
         this.businessModel = modelNegoci;
@@ -46,7 +44,7 @@ public class Tenda {
      * @param modelNegoci
      * @param catalogue
      */
-    public Tenda(String nom, String descripcio, int anyFundacio,String modelNegoci, ArrayList<ProducteTenda> catalogue) {
+    public Tenda(String nom, String descripcio, int anyFundacio,String modelNegoci, ArrayList<Producte> catalogue) {
         this.name = nom;
         this.description = descripcio;
         this.businessModel = modelNegoci;
@@ -79,7 +77,7 @@ public class Tenda {
      * retorna el catalog de la tenda
      * @return
      */
-    public ArrayList<ProducteTenda> getCatalogue() {
+    public ArrayList<Producte> getCatalogue() {
         return catalogue;
     }
 
@@ -121,10 +119,10 @@ public class Tenda {
 
     /**
      * Modifica el catalog de la tenda afegint productes nous
-     * @param producteTenda objecte que es vol afegir a la tenda
+     * @param Producte objecte que es vol afegir a la tenda
      */
-    public void setCatalogue(ProducteTenda producteTenda){
-        this.catalogue.add(producteTenda);
+    public void setCatalogue(Producte Producte){
+        this.catalogue.add(Producte);
     }
 
     /**

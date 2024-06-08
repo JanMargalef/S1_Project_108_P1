@@ -1,10 +1,37 @@
 [
   {
-    "name": "a",
-    "description": "a",
-    "since": 3,
+    "name": "MaxProfitTenda",
+    "description": "aa",
+    "since": 20002,
     "earnings": 0.0,
     "businessModel": "MAX_PROFIT",
+    "catalogue": [
+      {
+        "preuTenda": 50.0,
+        "name": "GeneralProduct",
+        "brand": "Misco",
+        "mrp": 100.0,
+        "category": "GENERAL",
+        "reviews": []
+      }
+    ]
+  },
+  {
+    "loyaltyThreshold": 0.0,
+    "name": "LoyaltyTenda",
+    "description": "aa",
+    "since": 20002,
+    "earnings": 0.0,
+    "businessModel": "LOYALTY",
+    "catalogue": []
+  },
+  {
+    "sponsorBrand": null,
+    "name": "SponsoredTenda",
+    "description": "aa",
+    "since": 20002,
+    "earnings": 0.0,
+    "businessModel": "SPONSORED",
     "catalogue": []
   }
 ]

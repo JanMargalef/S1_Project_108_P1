@@ -1,6 +1,6 @@
 package BUSSINESS;
 
-import BUSSINESS.ENTITIES.ProducteTenda;
+import BUSSINESS.ENTITIES.Producte;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Classe que representa un carret de compres amb una llista de productes seleccionats.
  */
 public class Carret {
-    private ArrayList<ProducteTenda> productesCarrito;
+    private ArrayList<Producte> productesCarrito;
 
 
     //*********************************__CONSTRUCTORS__*****************************************************************
@@ -27,7 +27,7 @@ public class Carret {
      * retorna l'arraylist de productes que te el carret guardats
      * @return
      */
-    public ArrayList<ProducteTenda> getProductesCarrito() {
+    public ArrayList<Producte> getProductesCarrito() {
         return productesCarrito;
     }
 
@@ -40,7 +40,7 @@ public class Carret {
      * guarda un nou producte al carrito
      * @param productesCarrito
      */
-    public void setProductesCarrito(ProducteTenda productesCarrito) {
+    public void setProductesCarrito(Producte productesCarrito) {
         this.productesCarrito.add(productesCarrito);
     }
 
