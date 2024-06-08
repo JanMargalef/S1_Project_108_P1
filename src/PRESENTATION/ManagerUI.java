@@ -99,13 +99,6 @@ public class ManagerUI {
     public void exit() {
         System.out.println(textApagantSistema);
     }
-
-    /**
-     * Mostra un missatge d'error indicant problemes durant la lectura de productes.
-     */
-    public void showIniciMenuErrorLoadProductes() {
-        System.out.println(textErrorLecturaProductes);
-    }
     /**
      * Mostra un missatge indicant que el sistema s'està iniciant.
      */
@@ -215,23 +208,18 @@ public class ManagerUI {
         System.out.print(textMenuPrincipal);
         try {
             int option = Integer.parseInt(this.scanner.nextLine());
-            switch (option) {
-                case 1:
-                    return MenuOpcions.GESTIO_PRODUCTES;
-                case 2:
-                    return MenuOpcions.GESTIO_TENDES;
-                case 3:
-                    return MenuOpcions.BUSCAR_PRODUCTES;
-                case 4:
-                    return MenuOpcions.LLISTAR_TENDES;
-                case 5:
-                    return MenuOpcions.CARRITO;
-                case 6:
-                    return MenuOpcions.EXIT;
-                default:
+            return switch (option) {
+                case 1 -> MenuOpcions.GESTIO_PRODUCTES;
+                case 2 -> MenuOpcions.GESTIO_TENDES;
+                case 3 -> MenuOpcions.BUSCAR_PRODUCTES;
+                case 4 -> MenuOpcions.LLISTAR_TENDES;
+                case 5 -> MenuOpcions.CARRITO;
+                case 6 -> MenuOpcions.EXIT;
+                default -> {
                     System.out.println(textErrorEntradaMenuInici);
-                    return MenuOpcions.MENU_PRINCIPAL;
-            }
+                    yield MenuOpcions.MENU_PRINCIPAL;
+                }
+            };
         } catch (NumberFormatException var2) {
             System.out.println(textErrorEntradaMenuInici);
             return MenuOpcions.MENU_PRINCIPAL;
@@ -265,11 +253,14 @@ public class ManagerUI {
 
     /**
      * Missatge de error a causa de no poder carregar correctament el fitxer de tendes
-     * @return retorna la opció EXIt ja que aquesta fa tancar el sistema
      */
-    public MenuOpcions showIniciMenuErrorLoadTendes() {
-        System.out.println(textErrorLecturaTendes);
-        return MenuOpcions.EXIT;
+    public void showIniciMenuErrorLoad(boolean isProduct) {
+        if(isProduct) {
+            System.out.println(textErrorLecturaProductes);
+        }
+        else {
+            System.out.println(textErrorLecturaTendes);
+        }
     }
 
     /**
@@ -597,8 +588,7 @@ public class ManagerUI {
      */
     public String requestQuery() {
         System.out.print("\nEnter your query:");
-        String valor = scanner.nextLine();
-        return valor;
+        return scanner.nextLine();
     }
 
     /**
@@ -681,8 +671,7 @@ public class ManagerUI {
         System.out.println( "   1) Read Reviews\n" +
                 "   2) Review Product");
         System.out.print("Choose an option:");
-        int option = Integer.parseInt(this.scanner.nextLine());
-        return option;
+        return Integer.parseInt(this.scanner.nextLine());
     }
 
     /**
@@ -728,9 +717,7 @@ public class ManagerUI {
                 System.out.println("Average rating:" + mitja +"*");
             }
 
-
         }
-
     }
 
 
@@ -744,7 +731,7 @@ public class ManagerUI {
         do{
             try {
                 String stars = this.scanner.nextLine();
-                if((stars.length()<=5)&&(stars.length()>0)) {
+                if((stars.length()<=5)&&(!stars.isEmpty())) {
                     switch (stars) {
                         case "*":
                             return 1;
@@ -795,20 +782,7 @@ public class ManagerUI {
         }
         System.out.println("\n\t" + (i +1) + ") Back\n");
 
-        while(option < 1 || option > i +1){
-            System.out.print("Which catalogue do you want to see? ");
-
-            try {
-                option = scanner.nextInt();
-                if (option < 1 || option > i +1) {
-                    System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-            }
-            scanner.nextLine();
-        }
-
+        option = getIntBetween(1, i+1, "Which catalogue do you want to see? ");
         return option -1;
     }
 
@@ -830,20 +804,7 @@ public class ManagerUI {
         }
         System.out.println("\t" + (i +1) + ") Back\n");
 
-        while(option < 1 || option > i +1){
-            System.out.print("Which one are you interested in? ");
-
-            try {
-                option = scanner.nextInt();
-                if (option < 1 || option > i +1) {
-                    System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-            }
-            scanner.nextLine();
-        }
-
+        option = getIntBetween(1, i+1, "Which one are you interested in? ");
         return option -1;
     }
 
@@ -852,26 +813,11 @@ public class ManagerUI {
      * @return retorna la opcio elegida com a integer.
      */
     public int requestOperation(){
-        int option = 0;
         System.out.println("\n\t1) Read Reviews");
         System.out.println("\t2) Review Product");
         System.out.println("\t3) Add to Cart\n");
 
-        while(option < 1 || option > 3){
-            System.out.print("Choose an option: ");
-
-            try {
-                option = scanner.nextInt();
-                if (option < 1 || option > 3) {
-                    System.out.println("Please enter a number between 1 and 3.\n");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and 3.\n");
-            }
-            scanner.nextLine();
-        }
-
-        return option;
+        return getIntBetween(1, 3, "Choose an option: ");
     }
 
     /**
@@ -894,16 +840,28 @@ public class ManagerUI {
                 "\t2) Clear cart\n\n" +
                 "\t3) Back\n");
 
-        while(option < 1 || option > 3){
-            System.out.print("Choose an option: ");
+        return getIntBetween(1, 3, "Choose an option: ");
+    }
+
+    /**
+     * Demana un enter a l'usuari fins que el que retorna està entre els valors adequats
+     * @param min és el valor mínim que ha de tenir l'input de l'usuari per ser correcte
+     * @param max és el valor màxim que ha de tenir l'input de l'usuari per ser correcte
+     * @param text és el text que es mostra a l'usuari per a cada intent
+     * @return retorna l'opció elegida per l'usuari
+     */
+    private int getIntBetween(int min, int max, String text) {
+        int option = -1;
+        while(option < min || option > max){
+            System.out.print(text);
 
             try {
                 option = scanner.nextInt();
-                if (option < 1 || option > 3) {
-                    System.out.println("Please enter a number between 1 and 3.\n");
+                if (option < min || option > max) {
+                    System.out.println("Please enter a number between " + min + " and " + max + ".\n");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and 3.\n");
+                System.out.println("Please enter a number between " + min + " and " + max + ".\n");
             }
             scanner.nextLine();
         }
@@ -954,14 +912,13 @@ public class ManagerUI {
     /**
      * Mostra un missatge d'error indicant que l'API no està disponible i verifica els fitxers locals.
      */
-    public void showIniciMenuErrorLoadProductesApi() {
-        System.out.println("Error: The API isn’t available.\n Verifying local Products files...");
-    }
-    /**
-     * Mostra un missatge d'error indicant que l'API no està disponible i verifica els fitxers locals.
-     */
-    public void showIniciMenuErrorLoadTendesApi() {
-        System.out.println("Error: The API isn’t available.\n Verifying local Shops   files...");
+    public void showIniciMenuErrorLoadApi(boolean isProduct) {
+        if(isProduct){
+            System.out.println("Error: The API isn’t available.\n Verifying local Products files...");
+        }
+        else{
+            System.out.println("Error: The API isn’t available.\n Verifying local Shops   files...");
+        }
     }
     /**
      * Mostra un missatge indicant que s'està verificant l'estat de l'API.
