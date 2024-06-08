@@ -717,9 +717,7 @@ public class ManagerUI {
                 System.out.println("Average rating:" + mitja +"*");
             }
 
-
         }
-
     }
 
 
@@ -784,20 +782,7 @@ public class ManagerUI {
         }
         System.out.println("\n\t" + (i +1) + ") Back\n");
 
-        while(option < 1 || option > i +1){
-            System.out.print("Which catalogue do you want to see? ");
-
-            try {
-                option = scanner.nextInt();
-                if (option < 1 || option > i +1) {
-                    System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-            }
-            scanner.nextLine();
-        }
-
+        option = getIntBetween(1, i+1, "Which catalogue do you want to see? ");
         return option -1;
     }
 
@@ -819,20 +804,7 @@ public class ManagerUI {
         }
         System.out.println("\t" + (i +1) + ") Back\n");
 
-        while(option < 1 || option > i +1){
-            System.out.print("Which one are you interested in? ");
-
-            try {
-                option = scanner.nextInt();
-                if (option < 1 || option > i +1) {
-                    System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and " + (i +1) + ".\n");
-            }
-            scanner.nextLine();
-        }
-
+        option = getIntBetween(1, i+1, "Which one are you interested in? ");
         return option -1;
     }
 
@@ -841,26 +813,11 @@ public class ManagerUI {
      * @return retorna la opcio elegida com a integer.
      */
     public int requestOperation(){
-        int option = 0;
         System.out.println("\n\t1) Read Reviews");
         System.out.println("\t2) Review Product");
         System.out.println("\t3) Add to Cart\n");
 
-        while(option < 1 || option > 3){
-            System.out.print("Choose an option: ");
-
-            try {
-                option = scanner.nextInt();
-                if (option < 1 || option > 3) {
-                    System.out.println("Please enter a number between 1 and 3.\n");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and 3.\n");
-            }
-            scanner.nextLine();
-        }
-
-        return option;
+        return getIntBetween(1, 3, "Choose an option: ");
     }
 
     /**
@@ -883,16 +840,28 @@ public class ManagerUI {
                 "\t2) Clear cart\n\n" +
                 "\t3) Back\n");
 
-        while(option < 1 || option > 3){
-            System.out.print("Choose an option: ");
+        return getIntBetween(1, 3, "Choose an option: ");
+    }
+
+    /**
+     * Demana un enter a l'usuari fins que el que retorna està entre els valors adequats
+     * @param min és el valor mínim que ha de tenir l'input de l'usuari per ser correcte
+     * @param max és el valor màxim que ha de tenir l'input de l'usuari per ser correcte
+     * @param text és el text que es mostra a l'usuari per a cada intent
+     * @return retorna l'opció elegida per l'usuari
+     */
+    private int getIntBetween(int min, int max, String text) {
+        int option = -1;
+        while(option < min || option > max){
+            System.out.print(text);
 
             try {
                 option = scanner.nextInt();
-                if (option < 1 || option > 3) {
-                    System.out.println("Please enter a number between 1 and 3.\n");
+                if (option < min || option > max) {
+                    System.out.println("Please enter a number between " + min + " and " + max + ".\n");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Please enter a number between 1 and 3.\n");
+                System.out.println("Please enter a number between " + min + " and " + max + ".\n");
             }
             scanner.nextLine();
         }
