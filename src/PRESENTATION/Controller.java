@@ -95,39 +95,12 @@ public class Controller {
      */
     private void loadFiles() {
 
-        int apiConnectedPoduct = 0;
-        int apiConnectedTendes = 0;
+        int apiConnectedProduct = this.managerProducte.loadData(); // carreguem els productes
+        int apiConnectedTendes = this.managerTenda.loadData();// carreguem les tendes
 
-        apiConnectedPoduct = this.managerProducte.loadData(); // carreguem els productes
-
-        apiConnectedTendes = this.managerTenda.loadData();// carreguem les tendes
         // si hi ha un error de qualsevol tipus, missatge de error i sortir del sistema
-
-        switch (apiConnectedPoduct){
-            case 0:
-                this.managerUI.showIniciMenuErrorLoadProductes();
-                this.managerUI.exit();
-                System.exit(0);
-                break;
-            case 1:
-                break;
-            case 2:
-                this.managerUI.showIniciMenuErrorLoadProductesApi();
-                break;
-        }
-
-        switch (apiConnectedTendes){
-            case 0:
-                this.managerUI.showIniciMenuErrorLoadTendes();
-                this.managerUI.exit();
-                System.exit(0);
-                break;
-            case 1:
-                break;
-            case 2:
-                this.managerUI.showIniciMenuErrorLoadTendesApi();
-                break;
-        }
+        checkApiConection(apiConnectedProduct, true);
+        checkApiConection(apiConnectedTendes, false);
     }
 
 
@@ -141,35 +114,35 @@ public class Controller {
      */
     private void saveFiles() throws IOException {
 
-        int apiConnectedPoduct = 0;
-        int apiConnectedTendes = 0;
+        int apiConnectedProduct = this.managerProducte.saveData(); // carreguem els productes
+        int apiConnectedTendes = this.managerTenda.saveData();// carreguem les tendes
 
-        apiConnectedPoduct = this.managerProducte.saveData(); // carreguem els productes
-        apiConnectedTendes = this.managerTenda.saveData();// carreguem les tendes
+        // si hi ha un error de qualsevol tipus, missatge de error i sortir del sistema
+        checkApiConection(apiConnectedProduct, true);
+        checkApiConection(apiConnectedTendes, false);
+    }
 
-        switch (apiConnectedPoduct){
+    /**
+     * Carrega les dades de productes i tendes des de les respectives APIs.
+     * Verifica la connexió amb les APIs i gestiona possibles errors durant la càrrega de dades.
+     * En cas d'errors crítics, mostra missatges d'error i surt del sistema.
+     *
+     * @throws IOException Si es produeix un error crític durant la càrrega de dades i es surt del sistema.
+     *
+     */
+    private void checkApiConection(int apiConnectedError, boolean isProduct) {
+        switch (apiConnectedError){
             case 0:
-                this.managerUI.showIniciMenuErrorLoadProductes();
+                this.managerUI.showIniciMenuErrorLoad(isProduct);
                 this.managerUI.exit();
                 System.exit(0);
                 break;
-            case 1:
-                break;
-            case 2:
-                this.managerUI.showIniciMenuErrorLoadProductesApi();
-                break;
-        }
 
-        switch (apiConnectedTendes){
-            case 0:
-                this.managerUI.showIniciMenuErrorLoadTendes();
-                this.managerUI.exit();
-                System.exit(0);
-                break;
             case 1:
                 break;
+
             case 2:
-                this.managerUI.showIniciMenuErrorLoadTendesApi();
+                this.managerUI.showIniciMenuErrorLoadApi(isProduct);
                 break;
         }
     }
