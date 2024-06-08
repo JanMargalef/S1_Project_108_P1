@@ -11,6 +11,7 @@ public class Producte {
     private float mrp;
     private String category;
     private ArrayList<String> reviews;
+    private int iva;
 
     //*********************************__CONSTRUCTORS__**********************************************************************
     /**
@@ -28,6 +29,7 @@ public class Producte {
         this.category = categoria;
         this.mrp = maxPreu;
         this.reviews = valoracions;
+        this.iva = 0;
     }
     /**
      * Constructor de la classe Producte sense informació d'avaluacions.
@@ -43,6 +45,7 @@ public class Producte {
         this.category = categoria;
         this.mrp = maxPreu;
         this.reviews = new ArrayList<>();
+        this.iva = 0;
 
 
 
@@ -92,6 +95,9 @@ public class Producte {
         return reviews;
     }
 
+    public int getIva() {
+        return iva;
+    }
     //*********************************__SETTERS__**********************************************************************
 
     /**

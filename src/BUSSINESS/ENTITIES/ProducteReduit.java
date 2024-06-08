@@ -37,7 +37,8 @@ public class ProducteReduit extends Producte{
      *
      * @return Valor de l'IVA del producte amb impost reduït.
      */
-    public Integer getIva() {
+    @Override
+    public int getIva() {
         return iva;
     }
 }

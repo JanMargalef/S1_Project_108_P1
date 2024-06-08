@@ -39,7 +39,8 @@ public class ProducteGeneral extends Producte{
      *
      * @return Valor de l'IVA del producte general.
      */
-    public Integer getIva() {
+    @Override
+    public int getIva() {
         return iva;
     }
 }
