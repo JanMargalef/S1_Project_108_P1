@@ -115,7 +115,7 @@ public class TendaManager {
             loyaltyThreshold = jsonObject.get("loyaltyThreshold").getAsFloat();
         }
 
-        ArrayList<ProducteTenda> cataleg = jsonArrayToProductList(jsonObject.getAsJsonArray("catalogue"));
+        ArrayList<Producte> cataleg = jsonArrayToProductList(jsonObject.getAsJsonArray("catalogue"));
 
 
 
@@ -137,20 +137,31 @@ public class TendaManager {
 
     }
     /**
-     * Converteix un JSONArray de productes en una llista d'objectes ProducteTenda.
+     * Converteix un JSONArray de productes en una llista d'objectes Producte.
      *
      * @param jsonArray JSONArray amb la informació del catàleg de la tenda.
-     * @return Una llista d'objectes ProducteTenda.
+     * @return Una llista d'objectes Producte.
      */
-    private ArrayList<ProducteTenda> jsonArrayToProductList(JsonArray jsonArray) {
-        ArrayList<ProducteTenda> productList = new ArrayList<>();
+    private ArrayList<Producte> jsonArrayToProductList(JsonArray jsonArray) {
+        ArrayList<Producte> productList = new ArrayList<>();
 
         for (JsonElement jsonElement : jsonArray) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-            ProducteTenda producto = new Gson().fromJson(jsonObject, ProducteTenda.class);
+            if (jsonElement.toString().contains("GENERAL")){
+                ProducteGeneral producteGeneral = new Gson().fromJson(jsonObject, ProducteGeneral.class);
+                productList.add(producteGeneral);
 
-            productList.add(producto);
+            }else if (jsonElement.toString().contains("REDUCED")){
+                ProducteReduit producteReduit = new Gson().fromJson(jsonObject, ProducteReduit.class);
+                productList.add(producteReduit);
+
+
+            }else if (jsonElement.toString().contains("SUPER_REDUCED")){
+                ProducteSuperReduit producteSuperReduit = new Gson().fromJson(jsonObject, ProducteSuperReduit.class);
+                productList.add(producteSuperReduit);
+            }
+
         }
 
         return productList;
@@ -183,7 +194,7 @@ public class TendaManager {
      * @return retorna un boolea indicant que ha sigut o no possible crear la tenda
      */
     public boolean addTendaMaxProfit(String nom, String descripcio, int anyFundacio, String modelNegoci) {
-        ArrayList<ProducteTenda> cataleg = new ArrayList<ProducteTenda>();
+        ArrayList<Producte> cataleg = new ArrayList<Producte>();
         TendaGeneral newTenda = new TendaGeneral(nom, descripcio, anyFundacio, modelNegoci, cataleg);
         for (Tenda tenda : tendes) {
             if (tenda.getName().equals(newTenda.getName())) {
@@ -205,7 +216,7 @@ public class TendaManager {
      * @return True si la tenda ja existeix a la llista, False si s'afegeix amb èxit.
      */
     public boolean addTendaLoyalty(String nom, String descripcio, int anyFundacio, String modelNegoci, float threshold) {
-        ArrayList<ProducteTenda> cataleg = new ArrayList<ProducteTenda>();
+        ArrayList<Producte> cataleg = new ArrayList<Producte>();
         TendaFidelitzacio newTenda = new TendaFidelitzacio(nom, descripcio, anyFundacio, modelNegoci, cataleg, threshold);
         for (Tenda tenda : tendes) {
             if (tenda.getName().equals(newTenda.getName())) {
@@ -227,7 +238,7 @@ public class TendaManager {
      * @return True si la tenda ja existeix a la llista, False si s'afegeix amb èxit.
      */
     public boolean addTendaSponsored(String nom, String descripcio, int anyFundacio, String modelNegoci, String sponsoredBrand) {
-        ArrayList<ProducteTenda> cataleg = new ArrayList<ProducteTenda>();
+        ArrayList<Producte> cataleg = new ArrayList<Producte>();
         TendaSponsor newTenda = new TendaSponsor(nom, descripcio, anyFundacio, modelNegoci, cataleg, sponsoredBrand);
         for (Tenda tenda : tendes) {
             if (tenda.getName().equals(newTenda.getName())) {
@@ -248,37 +259,46 @@ public class TendaManager {
      * @return retorna si ha sigut possible o no ferho
      */
     public boolean addProducte(ArrayList<Producte> productes, String nomTenda, String nomProducte, float preu) {
-        ProducteTenda producteTenda;
-        boolean crear = true;
-        for (Producte producte : productes) { // comprovem que existeixi el producte
-            if (producte.getName().equals(nomProducte)) {
-                if (producte.getMrp() > preu) { // comprovem que el maxim preu no sigui superat per el de la tenda
-                    producteTenda = new ProducteTenda(producte.getName(), producte.getBrand(), producte.getCategory(), producte.getMrp(), preu, nomTenda); // creem el producte de tenda
+        Producte producte;
+        boolean creat = false;
+
+        for (Producte producte1 : productes) { // comprovem que existeixi el producte
+            if (producte1.getName().equals(nomProducte)) {
+
+                if (producte1.getMrp() >= preu) { // comprovem que el maxim preu no sigui superat per el de la tenda
+                    switch (producte1.getCategory()) {
+                        case "GENERAL":
+                            producte = new ProducteGeneral(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu);
+                            break;
+                        case "REDUCED":
+                            producte = new ProducteReduit(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu);
+                            break;
+                        case "SUPER_REDUCED":
+                            producte = new ProducteSuperReduit(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu);
+                            break;
+                        default:
+                            return false;
+                    }
 
                     for (Tenda tenda : tendes) { // busquem la tenda a la que volem afegir el producte
-                        ArrayList<ProducteTenda> cataleg = tenda.getCatalogue();
+                        ArrayList<Producte> cataleg = tenda.getCatalogue();
 
                         if (tenda.getName().equals(nomTenda)) {
                             if (cataleg.size() == 0){
-                                tenda.setCatalogue(producteTenda);
-                                crear = true; // indiquem que ja hem creat un
+                                tenda.setCatalogue(producte);
+                                creat = true; // indiquem que ja hem creat un
                                 break; // parem el bucle aixi no peta el programa a causa del else if ja que al estar buid es surt de la longitut de l'array
 
                             }else{
                                 for (int i = 0; i < cataleg.size(); i++) {
-                                    if(cataleg.get(i).getName().equals(nomProducte)) { // si existeix el borrem i el tornem a crear de nou i si esta vuid el crei directe
+                                    if(cataleg.get(i).getName().equals(nomProducte)) { // si existeix el borrem i el tornem a creat de nou i si esta vuid el crei directe
                                         tenda.removeProductCatalogue(i);
-                                        tenda.setCatalogue(producteTenda);
-                                        crear = false; // indiquem que ja hem creat un
+                                        tenda.setCatalogue(producte);
+                                        creat = true; // indiquem que ja hem creat un
                                         break;
                                     }
                                 }
-                                if(crear){
-                                    tenda.setCatalogue(producteTenda);
-                                }
                             }
-
-                            return true;
                         }
                     }
                 } else {
@@ -287,7 +307,11 @@ public class TendaManager {
             }
 
         }
-        return false;
+        if(creat){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -296,10 +320,10 @@ public class TendaManager {
      */
     public void removeProducteCatalegs(String name) {
         for (Tenda tenda : tendes) {
-            ArrayList<ProducteTenda> producteTendas = tenda.getCatalogue();
-            for (int i = 0; i < producteTendas.size(); i++) {
+            ArrayList<Producte> Productes = tenda.getCatalogue();
+            for (int i = 0; i < Productes.size(); i++) {
 
-                if (producteTendas.get(i).getName().equals(name)) {
+                if (Productes.get(i).getName().equals(name)) {
                     tenda.removeProductCatalogue(i);
                 }
             }
@@ -349,154 +373,154 @@ public class TendaManager {
 
     /**
      * Afegir un producte de una tenda al carret
-     * @param producteTenda producte de la tenda a afegir
+     * @param Producte producte de la tenda a afegir
      */
-    public void addToCarret(ProducteTenda producteTenda) {
-        carrito.setProductesCarrito(producteTenda);
+    public void addToCarret(Producte Producte) {
+        carrito.setProductesCarrito(Producte);
     }
 
     /**
      * suma tots els veneficis a cada tenda si un producte es troba en el carrito
      */
 
-    public void checkout() {
-        calculCarretClientTenda(true);
-    }
-
-    /**
-     * Calcula el cost total per al client segons els productes del carret i les tendes existents.
-     *
-     * @param checkout Indica si es tracta d'un procés de pagament (true) o simplement d'una consulta (false).
-     * @return El cost total per al client.
-     */
-    public float calculCarretClientTenda(Boolean checkout) {
-        ArrayList<ProducteTenda> carritoProductes = carrito.getProductesCarrito();
-        ArrayList<Producte> productes = ProductManager.getProductes();
-
-        float totalClient = 0;
-
-
-        for (Tenda tenda:tendes) {
-            float totalTenda = 0;
-
-            boolean sponsored = false;
-            boolean fidelitzat = false;
-
-            for (ProducteTenda productTenda: carritoProductes) {
-                if(tenda.getName().equals(productTenda.getTenda())){
-                    float preuTenda = productTenda.getPreuTenda();
-
-
-                    if(tenda instanceof TendaGeneral){
-                        TendaGeneral tendaGeneral = (TendaGeneral) tenda;
-
-                        for (Producte producte: productes) {
-                            if(productTenda.getName().equals(producte.getName())){
-                                totalTenda += calculPreuBenefici(preuTenda, producte);
-                                totalClient += preuTenda;
-                            }
-                        }
-
-
-                    }
-
-                    if(tenda instanceof TendaFidelitzacio){
-                        TendaFidelitzacio tendaFidelitzacio = (TendaFidelitzacio) tenda;
-
-                        if(tendaFidelitzacio.getEarnings() >= tendaFidelitzacio.getLoyaltyThreshold()){
-                            fidelitzat = true;
-                        }else{
-                            fidelitzat = false;
-                        }
-
-                        for (Producte producte: productes) {
-                            if(productTenda.getName().equals(producte.getName())){
-                                if(fidelitzat){
-                                    float preu = (float)calculPreuBenefici(preuTenda, producte);
-                                    totalTenda += (float)calculPreuBenefici(preu, producte);
-
-                                    totalClient += preu;
-
-                                }else{
-
-                                    totalTenda += calculPreuBenefici(preuTenda, producte);
-                                    totalClient += preuTenda;
-
-                                }
-
-                            }
-                        }
-                    }
-
-                    if(tenda instanceof TendaSponsor){
-                        TendaSponsor tendaSponsor = (TendaSponsor) tenda;
-
-                        for (Producte producte: productes) {
-                            if(productTenda.getName().equals(producte.getName())){
-                                totalTenda += calculPreuBenefici(preuTenda, producte);
-
-                                if(producte.getBrand().equals(tendaSponsor.getSponsorBrand())){
-                                    sponsored = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            if(sponsored){
-                sponsored = false;
-                totalTenda = totalTenda * (float) 0.9;
-            }
-
-            if(checkout){
-                tenda.setEarnings((float)totalTenda);
-            }
-
-
-
-
-        }
-        return totalClient;
-    }
-
-    /**
-     * elimina tots els productes del carrito
-     */
-    public void clearCart() {
-        if(carrito.getProductesCarrito().size()!= 0){
-            carrito.removeProductesCarrito();
-        }
-
-    }
-    /**
-     * Calcula el preu amb benefici d'un producte al carro de la compra.
-     *
-     * @param preuTenda Preu del producte a la tenda.
-     * @param producte  Producte per al qual es calcula el preu amb benefici.
-     * @return El preu amb benefici calculat.
-     */
-    private double calculPreuBenefici(float preuTenda, Producte producte) {
-
-        double preu = 0.0;
-        if (producte instanceof ProducteGeneral) {
-            ProducteGeneral producteGeneral = (ProducteGeneral) producte;
-            float iva = producteGeneral.getIva();
-            preu = preuTenda/((iva/100)+1);
-        }
-        if (producte instanceof ProducteReduit) {
-            ProducteReduit producteReduit = (ProducteReduit) producte;
-            float iva = (producteReduit.getIva() / 100) + 1;
-            preu = preuTenda/iva;
-        }
-        if (producte instanceof ProducteSuperReduit) {
-            ProducteSuperReduit producteSuperReduit = (ProducteSuperReduit) producte;
-            float iva = (producteSuperReduit.getIva() / 100) + 1;
-            preu = preuTenda/iva;
-        }
-        return preu;
-
-
-    }
+//    public void checkout() {
+//        calculCarretClientTenda(true);
+//    }
+//
+//    /**
+//     * Calcula el cost total per al client segons els productes del carret i les tendes existents.
+//     *
+//     * @param checkout Indica si es tracta d'un procés de pagament (true) o simplement d'una consulta (false).
+//     * @return El cost total per al client.
+//     */
+//    public float calculCarretClientTenda(Boolean checkout) {
+//        ArrayList<Producte> carritoProductes = carrito.getProductesCarrito();
+//        ArrayList<Producte> productes = ProductManager.getProductes();
+//
+//        float totalClient = 0;
+//
+//
+//        for (Tenda tenda:tendes) {
+//            float totalTenda = 0;
+//
+//            boolean sponsored = false;
+//            boolean fidelitzat = false;
+//
+//            for (Producte Producte: carritoProductes) {
+//                if(tenda.getName().equals(Producte.getTenda())){
+//                    float preuTenda = Producte.getPreuIva();
+//
+//
+//                    if(tenda instanceof TendaGeneral){
+//                        TendaGeneral tendaGeneral = (TendaGeneral) tenda;
+//
+//                        for (Producte producte: productes) {
+//                            if(Producte.getName().equals(producte.getName())){
+//                                totalTenda += calculPreuBenefici(preuTenda, producte);
+//                                totalClient += preuTenda;
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                    if(tenda instanceof TendaFidelitzacio){
+//                        TendaFidelitzacio tendaFidelitzacio = (TendaFidelitzacio) tenda;
+//
+//                        if(tendaFidelitzacio.getEarnings() >= tendaFidelitzacio.getLoyaltyThreshold()){
+//                            fidelitzat = true;
+//                        }else{
+//                            fidelitzat = false;
+//                        }
+//
+//                        for (Producte producte: productes) {
+//                            if(Producte.getName().equals(producte.getName())){
+//                                if(fidelitzat){
+//                                    float preu = (float)calculPreuBenefici(preuTenda, producte);
+//                                    totalTenda += (float)calculPreuBenefici(preu, producte);
+//
+//                                    totalClient += preu;
+//
+//                                }else{
+//
+//                                    totalTenda += calculPreuBenefici(preuTenda, producte);
+//                                    totalClient += preuTenda;
+//
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//
+//                    if(tenda instanceof TendaSponsor){
+//                        TendaSponsor tendaSponsor = (TendaSponsor) tenda;
+//
+//                        for (Producte producte: productes) {
+//                            if(Producte.getName().equals(producte.getName())){
+//                                totalTenda += calculPreuBenefici(preuTenda, producte);
+//
+//                                if(producte.getBrand().equals(tendaSponsor.getSponsorBrand())){
+//                                    sponsored = true;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            }
+//
+//            if(sponsored){
+//                sponsored = false;
+//                totalTenda = totalTenda * (float) 0.9;
+//            }
+//
+//            if(checkout){
+//                tenda.setEarnings((float)totalTenda);
+//            }
+//
+//
+//
+//
+//        }
+//        return totalClient;
+//    }
+//
+//    /**
+//     * elimina tots els productes del carrito
+//     */
+//    public void clearCart() {
+//        if(carrito.getProductesCarrito().size()!= 0){
+//            carrito.removeProductesCarrito();
+//        }
+//
+//    }
+//    /**
+//     * Calcula el preu amb benefici d'un producte al carro de la compra.
+//     *
+//     * @param preuTenda Preu del producte a la tenda.
+//     * @param producte  Producte per al qual es calcula el preu amb benefici.
+//     * @return El preu amb benefici calculat.
+//     */
+//    private double calculPreuBenefici(float preuTenda, Producte producte) {
+//
+//        double preu = 0.0;
+//        if (producte instanceof ProducteGeneral) {
+//            ProducteGeneral producteGeneral = (ProducteGeneral) producte;
+//            float iva = producteGeneral.getIva();
+//            preu = preuTenda/((iva/100)+1);
+//        }
+//        if (producte instanceof ProducteReduit) {
+//            ProducteReduit producteReduit = (ProducteReduit) producte;
+//            float iva = (producteReduit.getIva() / 100) + 1;
+//            preu = preuTenda/iva;
+//        }
+//        if (producte instanceof ProducteSuperReduit) {
+//            ProducteSuperReduit producteSuperReduit = (ProducteSuperReduit) producte;
+//            float iva = (producteSuperReduit.getIva() / 100) + 1;
+//            preu = preuTenda/iva;
+//        }
+//        return preu;
+//
+//
+//    }
 }

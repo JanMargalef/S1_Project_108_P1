@@ -19,7 +19,7 @@ public class TendaSponsor extends Tenda{
      * @param modelNegoci model de negoci de la tenda
      * @param catalogue   catalog de la tenda
      */
-    public TendaSponsor(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<ProducteTenda> catalogue, String sponsorBrand) {
+    public TendaSponsor(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<Producte> catalogue, String sponsorBrand) {
         super(nom, descripcio, anyFundacio, ganacies, modelNegoci, catalogue);
         this.sponsorBrand = sponsorBrand;
     }
@@ -33,7 +33,7 @@ public class TendaSponsor extends Tenda{
      * @param modelNegoci
      * @param catalogue
      */
-    public TendaSponsor(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<ProducteTenda> catalogue, String sponsorBrand) {
+    public TendaSponsor(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<Producte> catalogue, String sponsorBrand) {
         super(nom, descripcio, anyFundacio, modelNegoci, catalogue);
         this.sponsorBrand = sponsorBrand;
     }

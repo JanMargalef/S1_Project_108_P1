@@ -6,7 +6,10 @@ import java.util.ArrayList;
  * Classe que representa un producte amb impost súper reduït, que hereta de la classe Producte.
  */
 public class ProducteSuperReduit extends Producte{
+
     private transient Integer iva = 4;
+    private float preuTenda;
+
     /**
      * Constructor de la classe ProducteSuperReduit amb informació completa.
      *
@@ -27,8 +30,9 @@ public class ProducteSuperReduit extends Producte{
      * @param categoria Categoria del producte.
      * @param maxPreu Preu màxim del producte.
      */
-    public ProducteSuperReduit(String nom, String marca, String categoria, float maxPreu) {
+    public ProducteSuperReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu) {
         super(nom, marca, categoria, maxPreu);
+        this.preuTenda = preu;
     }
     /**
      * Obté l'Impost sobre el Valor Afegit (IVA) associat al producte amb impost súper reduït.
@@ -38,5 +42,14 @@ public class ProducteSuperReduit extends Producte{
     @Override
     public int getIva() {
         return iva;
+    }
+    @Override
+    public float getPreuBase() {
+        float preuOriginal= preuTenda/ (1 - (iva/100));
+        return preuOriginal;
+    }
+    @Override
+    public float getPreuIva(){
+        return preuTenda;
     }
 }

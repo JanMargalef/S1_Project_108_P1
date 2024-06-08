@@ -110,11 +110,11 @@ public class ProductManager {
                 productes.add(producteGeneral);
                 break;
                 case "REDUCED":
-                    ProducteReduit producteReduit = new ProducteReduit(product.getName(), product.getBrand(), product.getCategory(),product.getMrp());
+                    ProducteReduit producteReduit = new ProducteReduit(product.getName(), product.getBrand(), product.getCategory(),product.getMrp(), product.getReviews());
                     productes.add(producteReduit);
                     break;
                 case "SUPER_REDUCED":
-                    ProducteSuperReduit producteSuperReduit = new ProducteSuperReduit(product.getName(), product.getBrand(), product.getCategory(),product.getMrp());
+                    ProducteSuperReduit producteSuperReduit = new ProducteSuperReduit(product.getName(), product.getBrand(), product.getCategory(),product.getMrp(), product.getReviews());
                     productes.add(producteSuperReduit);
                     break;
             }
@@ -151,7 +151,7 @@ public class ProductManager {
      * @return retorna un boolea de si sha creat o no
      */
     public boolean addProductes(String nom, String marca, String categoria, float maxPreu){
-        Producte newProducte = new Producte(nom,marca,categoria,maxPreu);
+        Producte newProducte = new Producte(nom, marca, categoria, maxPreu);
         for (Producte producte: productes) {
             if(producte.getName().equals(newProducte.getName())){
                 return false;
@@ -168,6 +168,7 @@ public class ProductManager {
      */
     public void removeProducte(int index){
         productes.remove(index);
+
     }
 
 

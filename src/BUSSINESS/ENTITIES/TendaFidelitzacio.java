@@ -19,7 +19,7 @@ public class TendaFidelitzacio extends Tenda{
      * @param modelNegoci model de negoci de la tenda
      * @param catalogue   catalog de la tenda
      */
-    public TendaFidelitzacio(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<ProducteTenda> catalogue, float preuFidelitzacio) {
+    public TendaFidelitzacio(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<Producte> catalogue, float preuFidelitzacio) {
         super(nom, descripcio, anyFundacio, ganacies, modelNegoci, catalogue);
         this.loyaltyThreshold = preuFidelitzacio;
     }
@@ -33,7 +33,7 @@ public class TendaFidelitzacio extends Tenda{
      * @param modelNegoci
      * @param catalogue
      */
-    public TendaFidelitzacio(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<ProducteTenda> catalogue, float preuFidelitzacio) {
+    public TendaFidelitzacio(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<Producte> catalogue, float preuFidelitzacio) {
         super(nom, descripcio, anyFundacio, modelNegoci, catalogue);
         this.loyaltyThreshold = preuFidelitzacio;
     }

@@ -1,12 +1,17 @@
 package BUSSINESS.ENTITIES;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 
 /**
  * Classe que representa un producte amb impost reduït, que hereta de la classe Producte.
  */
 public class ProducteReduit extends Producte{
+
     private transient Integer iva = 10;
+
+    private float preuTenda;
 
     /**
      * Constructor de la classe ProducteReduit amb informació completa.
@@ -29,8 +34,9 @@ public class ProducteReduit extends Producte{
      * @param categoria Categoria del producte.
      * @param maxPreu Preu màxim del producte.
      */
-    public ProducteReduit(String nom, String marca, String categoria, float maxPreu) {
+    public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu) {
         super(nom, marca, categoria, maxPreu);
+        this.preuTenda = preu;
     }
     /**
      * Obté l'Impost sobre el Valor Afegit (IVA) associat al producte amb impost reduït.
@@ -40,5 +46,14 @@ public class ProducteReduit extends Producte{
     @Override
     public int getIva() {
         return iva;
+    }
+    @Override
+    public float getPreuBase() {
+        float preuOriginal= preuTenda/ (1 - (iva/100));
+        return preuOriginal;
+    }
+    @Override
+    public float getPreuIva(){
+        return preuTenda;
     }
 }

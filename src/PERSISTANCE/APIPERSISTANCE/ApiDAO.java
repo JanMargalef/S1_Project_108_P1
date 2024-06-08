@@ -5,6 +5,7 @@ import BUSSINESS.ENTITIES.Producte;
 import BUSSINESS.ENTITIES.Tenda;
 import PERSISTANCE.DataPersistance;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import edu.salle.url.api.ApiHelper;
@@ -106,6 +107,9 @@ public class ApiDAO implements DataPersistance {
                 String info = gson.toJson(producte);
                 apiHelper.postToUrl(URL + "products", info);
             }
+            if(productes.isEmpty()){
+                apiHelper.postToUrl(URL + "products", "");
+            }
             return true;
 
         }catch (ApiException ErrorConect){
@@ -180,6 +184,9 @@ public class ApiDAO implements DataPersistance {
             for (Tenda tenda: tendas) {
                 String info = gson.toJson(tenda);
                 apiHelper.postToUrl(URL + "shops", info);
+            }
+            if(tendas.isEmpty()){
+                apiHelper.postToUrl(URL + "shops", "");
             }
             return true;
 
