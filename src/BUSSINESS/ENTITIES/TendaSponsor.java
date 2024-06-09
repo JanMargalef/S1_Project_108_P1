@@ -38,7 +38,43 @@ public class TendaSponsor extends Tenda{
         this.sponsorBrand = sponsorBrand;
     }
 
-    public String getSponsorBrand() {
+    @Override
+    public String getSpecialCaracteristica() {
         return sponsorBrand;
+    }
+    @Override
+    public float calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
+        float cost = 0;
+        float benefici = 0;
+        boolean aplicarDescompte = false;
+        for (Producte producte: productes) {
+            if(producte.getBrand().equals(sponsorBrand)){
+                aplicarDescompte = true;
+            }
+        }
+        if(aplicarDescompte){
+            for (Producte producte: productes) {
+                cost += producte.getPreuIva(true);
+                benefici += producte.getPreuBase(2);
+
+            }
+
+        }else{
+            for (Producte producte: productes) {
+                cost += producte.getPreuIva(false);
+                benefici += producte.getPreuBase(0);
+
+            }
+        }
+
+        if(checkout){ // si realment vol finalitzar la compra ja es sumen els beneficis a la tenda
+            this.setEarnings(benefici);
+
+        }
+        return cost;
+    }
+    @Override
+    public float calculBeneficiTenda(ArrayList<Producte> productes){
+        return 0;
     }
 }

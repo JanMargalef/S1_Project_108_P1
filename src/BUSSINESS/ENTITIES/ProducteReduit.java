@@ -1,7 +1,5 @@
 package BUSSINESS.ENTITIES;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.ArrayList;
 
 /**
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 public class ProducteReduit extends Producte{
 
     private transient Integer iva = 10;
+    private String tenda;
 
     private float preuTenda;
 
@@ -34,9 +33,10 @@ public class ProducteReduit extends Producte{
      * @param categoria Categoria del producte.
      * @param maxPreu Preu màxim del producte.
      */
-    public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu) {
+    public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu, String tenda) {
         super(nom, marca, categoria, maxPreu);
         this.preuTenda = preu;
+        this.tenda = tenda;
     }
     /**
      * Obté l'Impost sobre el Valor Afegit (IVA) associat al producte amb impost reduït.
@@ -48,12 +48,34 @@ public class ProducteReduit extends Producte{
         return iva;
     }
     @Override
-    public float getPreuBase() {
-        float preuOriginal= preuTenda/ (1 - (iva/100));
+    public float getPreuBase(int recalcular) {
+        float preuOriginal = 0;
+        switch (recalcular){
+            case 0:
+                preuOriginal= preuTenda/ (1 - (iva/100));
+                break;
+            case 1:
+                float preubase = preuTenda/ (1 - (iva/100));
+                preuOriginal = preubase/ (1 - (iva/100));
+                break;
+            case 2:
+                float preuDescompte = preuTenda * (90/100);
+                preuOriginal = preuDescompte/ (1 - (iva/100));
+                break;
+        }
+
         return preuOriginal;
     }
     @Override
-    public float getPreuIva(){
+    public float getPreuIva(boolean descompte){
+        if(descompte){
+            return preuTenda *(90/100);
+        }
         return preuTenda;
+    }
+
+    @Override
+    public String getTenda(){
+        return tenda;
     }
 }

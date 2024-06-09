@@ -71,7 +71,7 @@ public class Controller {
 
                 case MenuOpcions.CARRITO:
                     loadFiles();
-                    //carrito();
+                    carrito();
                     saveFiles();
                     break;
 
@@ -148,28 +148,28 @@ public class Controller {
 
 
 
-//    private void carrito() {
-//        switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.calculCarretClientTenda(false))){
-//            case 1:
-//                if(managerUI.makeSure("checkout")){
-//                    managerTenda.checkout();
-//                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes());
-//                    managerTenda.clearCart();
-//                    managerUI.clearCartDone();
-//                }
-//                break;
-//
-//            case 2:
-//                if(managerUI.makeSure("clear your cart")) {
-//                    managerTenda.clearCart();
-//                    managerUI.clearCartDone();
-//                }
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
+    private void carrito() {
+        switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.checkout(false))){
+            case 1:
+                if(managerUI.makeSure("checkout")){
+                    managerTenda.checkout(true);
+                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes());
+                    managerTenda.clearCart();
+                    managerUI.clearCartDone();
+                }
+                break;
+
+            case 2:
+                if(managerUI.makeSure("clear your cart")) {
+                    managerTenda.clearCart();
+                    managerUI.clearCartDone();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 
     private void llistarTendes() {
         int indexTenda = 0;

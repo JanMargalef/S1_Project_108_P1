@@ -43,7 +43,35 @@ public class TendaFidelitzacio extends Tenda{
      *
      * @return El llindar de fidelitat com a valor de punt flotant (Float).
      */
-    public Float getLoyaltyThreshold() {
-        return loyaltyThreshold;
+    @Override
+    public String getSpecialCaracteristica() {
+        return loyaltyThreshold.toString();
+    }
+    @Override
+    public float calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
+        float cost = 0;
+        float benefici = 0;
+        for (Producte producte: productes) {
+            cost += producte.getPreuIva(false);
+            benefici += producte.getPreuBase(0);
+        }
+
+        if(cost >= loyaltyThreshold || (this.getEarnings() + cost)>= loyaltyThreshold){
+            cost = 0;
+            benefici = 0;
+            for (Producte producte: productes) {
+                cost += producte.getPreuBase(0);
+                benefici += producte.getPreuBase(1);
+            }
+        }
+        if(checkout){ // si realment vol finalitzar la compra ja es sumen els beneficis a la tenda
+            this.setEarnings(benefici);
+
+        }
+        return cost;
+    }
+    @Override
+    public float calculBeneficiTenda(ArrayList<Producte> productes){
+        return 0;
     }
 }

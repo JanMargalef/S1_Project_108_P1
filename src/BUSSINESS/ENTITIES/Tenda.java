@@ -141,4 +141,16 @@ public class Tenda {
         this.earnings = earnings + profit;
     }
 
+    public String getSpecialCaracteristica() {
+        return "";
+    }
+
+    public float calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
+        return 0;
+    }
+
+    public float calculBeneficiTenda(ArrayList<Producte> productes){
+        return 0;
+    }
+
 }

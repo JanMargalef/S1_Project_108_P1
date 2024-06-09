@@ -618,7 +618,7 @@ public class ManagerUI {
                     for (int i = 0; i < catalog.size(); i++) {
                         if ((  catalog.get(i).getName().equals(productesTrobats.get(contador).getName()))) {
                             String nomTenda = tendes.get(x).getName();
-                            float price = catalog.get(i).getPreuIva();
+                            float price = catalog.get(i).getPreuIva(false);
 
                             System.out.println("Sold at:\n" +
                                     "    - " + nomTenda + ": " + price + "\n");
@@ -835,7 +835,7 @@ public class ManagerUI {
         System.out.println("\nYour cart contains the following items:\n");
         for(int i = 0; i < carret.getProductesCarrito().size(); i++){
             System.out.println("\t- \"" + carret.getProductesCarrito().get(i).getName() + "\" by \"" + carret.getProductesCarrito().get(i).getBrand() + "\"");
-            System.out.println("\t\tPrice: " + carret.getProductesCarrito().get(i).getPreuIva() + "\"\n");
+            System.out.println("\t\tPrice: " + carret.getProductesCarrito().get(i).getPreuIva(false) + "\"\n");
         }
 
         System.out.println("Total: " + clientTotal + "\n");

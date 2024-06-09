@@ -1,5 +1,6 @@
 [
   {
+    "beneficiTotal": 0.0,
     "name": "MaxProfitTenda",
     "description": "aa",
     "since": 20002,
@@ -7,6 +8,7 @@
     "businessModel": "MAX_PROFIT",
     "catalogue": [
       {
+        "tenda": null,
         "preuTenda": 50.0,
         "name": "GeneralProduct",
         "brand": "Misco",

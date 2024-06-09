@@ -268,13 +268,13 @@ public class TendaManager {
                 if (producte1.getMrp() >= preu) { // comprovem que el maxim preu no sigui superat per el de la tenda
                     switch (producte1.getCategory()) {
                         case "GENERAL":
-                            producte = new ProducteGeneral(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu);
+                            producte = new ProducteGeneral(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu, nomTenda);
                             break;
                         case "REDUCED":
-                            producte = new ProducteReduit(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu);
+                            producte = new ProducteReduit(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu, nomTenda);
                             break;
                         case "SUPER_REDUCED":
-                            producte = new ProducteSuperReduit(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu);
+                            producte = new ProducteSuperReduit(producte1.getName(), producte1.getBrand(), producte1.getCategory(),producte1.getMrp(), producte1.getReviews(), preu, nomTenda);
                             break;
                         default:
                             return false;
@@ -379,148 +379,70 @@ public class TendaManager {
         carrito.setProductesCarrito(Producte);
     }
 
-    /**
-     * suma tots els veneficis a cada tenda si un producte es troba en el carrito
-     */
 
-//    public void checkout() {
-//        calculCarretClientTenda(true);
-//    }
-//
-//    /**
-//     * Calcula el cost total per al client segons els productes del carret i les tendes existents.
-//     *
-//     * @param checkout Indica si es tracta d'un procés de pagament (true) o simplement d'una consulta (false).
-//     * @return El cost total per al client.
-//     */
-//    public float calculCarretClientTenda(Boolean checkout) {
-//        ArrayList<Producte> carritoProductes = carrito.getProductesCarrito();
-//        ArrayList<Producte> productes = ProductManager.getProductes();
-//
-//        float totalClient = 0;
-//
-//
-//        for (Tenda tenda:tendes) {
-//            float totalTenda = 0;
-//
-//            boolean sponsored = false;
-//            boolean fidelitzat = false;
-//
-//            for (Producte Producte: carritoProductes) {
-//                if(tenda.getName().equals(Producte.getTenda())){
-//                    float preuTenda = Producte.getPreuIva();
-//
-//
-//                    if(tenda instanceof TendaGeneral){
-//                        TendaGeneral tendaGeneral = (TendaGeneral) tenda;
-//
-//                        for (Producte producte: productes) {
-//                            if(Producte.getName().equals(producte.getName())){
-//                                totalTenda += calculPreuBenefici(preuTenda, producte);
-//                                totalClient += preuTenda;
-//                            }
-//                        }
-//
-//
-//                    }
-//
-//                    if(tenda instanceof TendaFidelitzacio){
-//                        TendaFidelitzacio tendaFidelitzacio = (TendaFidelitzacio) tenda;
-//
-//                        if(tendaFidelitzacio.getEarnings() >= tendaFidelitzacio.getLoyaltyThreshold()){
-//                            fidelitzat = true;
-//                        }else{
-//                            fidelitzat = false;
-//                        }
-//
-//                        for (Producte producte: productes) {
-//                            if(Producte.getName().equals(producte.getName())){
-//                                if(fidelitzat){
-//                                    float preu = (float)calculPreuBenefici(preuTenda, producte);
-//                                    totalTenda += (float)calculPreuBenefici(preu, producte);
-//
-//                                    totalClient += preu;
-//
-//                                }else{
-//
-//                                    totalTenda += calculPreuBenefici(preuTenda, producte);
-//                                    totalClient += preuTenda;
-//
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//
-//                    if(tenda instanceof TendaSponsor){
-//                        TendaSponsor tendaSponsor = (TendaSponsor) tenda;
-//
-//                        for (Producte producte: productes) {
-//                            if(Producte.getName().equals(producte.getName())){
-//                                totalTenda += calculPreuBenefici(preuTenda, producte);
-//
-//                                if(producte.getBrand().equals(tendaSponsor.getSponsorBrand())){
-//                                    sponsored = true;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//            }
-//
-//            if(sponsored){
-//                sponsored = false;
-//                totalTenda = totalTenda * (float) 0.9;
-//            }
-//
-//            if(checkout){
-//                tenda.setEarnings((float)totalTenda);
-//            }
-//
-//
-//
-//
-//        }
-//        return totalClient;
-//    }
-//
-//    /**
-//     * elimina tots els productes del carrito
-//     */
-//    public void clearCart() {
-//        if(carrito.getProductesCarrito().size()!= 0){
-//            carrito.removeProductesCarrito();
-//        }
-//
-//    }
-//    /**
-//     * Calcula el preu amb benefici d'un producte al carro de la compra.
-//     *
-//     * @param preuTenda Preu del producte a la tenda.
-//     * @param producte  Producte per al qual es calcula el preu amb benefici.
-//     * @return El preu amb benefici calculat.
-//     */
-//    private double calculPreuBenefici(float preuTenda, Producte producte) {
-//
-//        double preu = 0.0;
-//        if (producte instanceof ProducteGeneral) {
-//            ProducteGeneral producteGeneral = (ProducteGeneral) producte;
-//            float iva = producteGeneral.getIva();
-//            preu = preuTenda/((iva/100)+1);
-//        }
-//        if (producte instanceof ProducteReduit) {
-//            ProducteReduit producteReduit = (ProducteReduit) producte;
-//            float iva = (producteReduit.getIva() / 100) + 1;
-//            preu = preuTenda/iva;
-//        }
-//        if (producte instanceof ProducteSuperReduit) {
-//            ProducteSuperReduit producteSuperReduit = (ProducteSuperReduit) producte;
-//            float iva = (producteSuperReduit.getIva() / 100) + 1;
-//            preu = preuTenda/iva;
-//        }
-//        return preu;
-//
-//
-//    }
+    /**
+     * Calcula el cost total per al client segons els productes del carret i les tendes existents.
+     *
+     * @param checkout Indica si es tracta d'un procés de pagament (true) o simplement d'una consulta (false).
+     * @return El cost total per al client.
+     */
+    public float checkout(Boolean checkout) {
+        ArrayList<Producte> carritoProductes = carrito.getProductesCarrito();
+        ArrayList<Producte> productesTenda =new ArrayList<>();
+
+        float totalClient = 0;
+
+
+        for (Tenda tenda : tendes) {
+            productesTenda.clear(); // netegem la llsita
+            for (Producte producteCarret: carritoProductes){
+                if(tenda.getName().equals(producteCarret.getTenda())){
+                    productesTenda.add(producteCarret); // afegim a la llista tots els productes a comprar d'aquella tenda
+                    carritoProductes.remove(producteCarret); // els eliminem de el carrito
+                }
+            }
+            totalClient += tenda.calculPreuProductes(productesTenda, checkout); // calcula el preu de tot lo comprat a la seva tenda;
+        }
+
+        return totalClient;
+    }
+
+    /**
+     * elimina tots els productes del carrito
+     */
+    public void clearCart() {
+        if(carrito.getProductesCarrito().size()!= 0){
+            carrito.removeProductesCarrito();
+        }
+
+    }
+    /**
+     * Calcula el preu amb benefici d'un producte al carro de la compra.
+     *
+     * @param preuTenda Preu del producte a la tenda.
+     * @param producte  Producte per al qual es calcula el preu amb benefici.
+     * @return El preu amb benefici calculat.
+     */
+    private double calculPreuBenefici(float preuTenda, Producte producte) {
+
+        double preu = 0.0;
+        if (producte instanceof ProducteGeneral) {
+            ProducteGeneral producteGeneral = (ProducteGeneral) producte;
+            float iva = producteGeneral.getIva();
+            preu = preuTenda/((iva/100)+1);
+        }
+        if (producte instanceof ProducteReduit) {
+            ProducteReduit producteReduit = (ProducteReduit) producte;
+            float iva = (producteReduit.getIva() / 100) + 1;
+            preu = preuTenda/iva;
+        }
+        if (producte instanceof ProducteSuperReduit) {
+            ProducteSuperReduit producteSuperReduit = (ProducteSuperReduit) producte;
+            float iva = (producteSuperReduit.getIva() / 100) + 1;
+            preu = preuTenda/iva;
+        }
+        return preu;
+
+
+    }
 }

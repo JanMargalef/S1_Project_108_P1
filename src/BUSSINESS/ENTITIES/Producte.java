@@ -132,11 +132,15 @@ public class Producte {
         return 0;
     }
 
-    public float getPreuBase() {
+    public float getPreuBase(int recalcular) {
+        // si es 0, es calcula normal, si es 1 es recalcula el preu base a partir del preu base, si es 2 es fa a partir del preu normal amb 10% descompte
         return 0;
     }
 
-    public float getPreuIva() {
+    public float getPreuIva(boolean descompte) {
         return 0;
+    }
+        public String getTenda(){
+        return null;
     }
 }
