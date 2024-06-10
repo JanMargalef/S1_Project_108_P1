@@ -109,7 +109,10 @@ public class TendaManager {
         int since = jsonObject.get("since").getAsInt();
         String bussinessModel = jsonObject.get("businessModel").getAsString();
         Float earnings = jsonObject.get("earnings").getAsFloat();
-        String sponsoredBrand = (jsonObject.get("sponsoredBrand") != null) ? jsonObject.get("sponsoredBrand").getAsString() : null;
+        String sponsoredBrand = "";
+        if(jsonObject.has("sponsorBrand") && !jsonObject.get("sponsorBrand").isJsonNull()){
+           sponsoredBrand = jsonObject.get("sponsorBrand").getAsString();
+        }
         float loyaltyThreshold = 0;
         if (jsonObject.has("loyaltyThreshold") && !jsonObject.get("loyaltyThreshold").isJsonNull()) {
             loyaltyThreshold = jsonObject.get("loyaltyThreshold").getAsFloat();
@@ -298,6 +301,10 @@ public class TendaManager {
                                         break;
                                     }
                                 }
+                                if(!creat){
+                                    tenda.setCatalogue(producte);
+                                    creat = true;
+                                }
                             }
                         }
                     }
@@ -398,7 +405,7 @@ public class TendaManager {
             for (Producte producteCarret: carritoProductes){
                 if(tenda.getName().equals(producteCarret.getTenda())){
                     productesTenda.add(producteCarret); // afegim a la llista tots els productes a comprar d'aquella tenda
-                    carritoProductes.remove(producteCarret); // els eliminem de el carrito
+                    //carritoProductes.remove(producteCarret); // els eliminem de el carrito
                 }
             }
             totalClient += tenda.calculPreuProductes(productesTenda, checkout); // calcula el preu de tot lo comprat a la seva tenda;

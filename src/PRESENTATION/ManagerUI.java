@@ -616,7 +616,7 @@ public class ManagerUI {
                 for (int x = 0; x < tendes.size(); x++) { // busquem aquest producte al cataleg de les tendes
                     ArrayList<Producte> catalog = tendes.get(x).getCatalogue();
                     for (int i = 0; i < catalog.size(); i++) {
-                        if ((  catalog.get(i).getName().equals(productesTrobats.get(contador).getName()))) {
+                        if ((catalog.get(i).getName().equals(productesTrobats.getLast().getName()))) {
                             String nomTenda = tendes.get(x).getName();
                             float price = catalog.get(i).getPreuIva(false);
 
@@ -716,7 +716,9 @@ public class ManagerUI {
                     suma = suma + Integer.parseInt(review.substring(0,1));
                     cantitat ++;
                 }
-                if(cantitat!=0){mitja = suma/cantitat;} // comprovem que no dividim per 0
+                if(cantitat!=0){
+                    mitja = (float) suma /cantitat;
+                } // comprovem que no dividim per 0
                 System.out.println("Average rating:" + mitja +"*");
             }
 

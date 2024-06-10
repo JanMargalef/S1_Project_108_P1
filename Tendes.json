@@ -1,37 +1,83 @@
 [
   {
     "beneficiTotal": 0.0,
-    "name": "MaxProfitTenda",
-    "description": "aa",
-    "since": 20002,
+    "name": "MaxProfit1",
+    "description": "bb",
+    "since": 2005,
     "earnings": 0.0,
     "businessModel": "MAX_PROFIT",
     "catalogue": [
       {
-        "tenda": null,
-        "preuTenda": 50.0,
-        "name": "GeneralProduct",
+        "iva": 21,
+        "tenda": "MaxProfit1",
+        "preuTenda": 20.0,
+        "name": "General1",
         "brand": "Misco",
-        "mrp": 100.0,
+        "mrp": 110.0,
         "category": "GENERAL",
         "reviews": []
       }
     ]
   },
   {
+    "beneficiTotal": 0.0,
+    "name": "MaxProfit2",
+    "description": "cc",
+    "since": 2007,
+    "earnings": 0.0,
+    "businessModel": "MAX_PROFIT",
+    "catalogue": []
+  },
+  {
     "loyaltyThreshold": 0.0,
-    "name": "LoyaltyTenda",
-    "description": "aa",
-    "since": 20002,
+    "name": "Loyalty1",
+    "description": "dd",
+    "since": 2003,
     "earnings": 0.0,
     "businessModel": "LOYALTY",
     "catalogue": []
   },
   {
-    "sponsorBrand": null,
-    "name": "SponsoredTenda",
-    "description": "aa",
-    "since": 20002,
+    "loyaltyThreshold": 0.0,
+    "name": "Loyalty2",
+    "description": "ee",
+    "since": 2004,
+    "earnings": 0.0,
+    "businessModel": "LOYALTY",
+    "catalogue": []
+  },
+  {
+    "sponsorBrand": "MiscoJones",
+    "name": "Sponsored1",
+    "description": "ff",
+    "since": 2006,
+    "earnings": 0.0,
+    "businessModel": "SPONSORED",
+    "catalogue": []
+  },
+  {
+    "sponsorBrand": "Jones",
+    "name": "Sponsored2",
+    "description": "gg",
+    "since": 2008,
+    "earnings": 0.0,
+    "businessModel": "SPONSORED",
+    "catalogue": []
+  },
+  {
+    "loyaltyThreshold": 500.0,
+    "name": "MiscoSHop",
+    "description": "aaa",
+    "since": 2023,
+    "earnings": 0.0,
+    "businessModel": "LOYALTY",
+    "catalogue": []
+  },
+  {
+    "sponsorBrand": "Misco",
+    "name": "JonesShop",
+    "description": "aaa",
+    "since": 2027,
     "earnings": 0.0,
     "businessModel": "SPONSORED",
     "catalogue": []

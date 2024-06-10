@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ProducteSuperReduit extends Producte{
 
-    private transient Integer iva = 4;
+    private Integer iva = 4;
     private String tenda;
     private float preuTenda;
 
@@ -22,6 +22,7 @@ public class ProducteSuperReduit extends Producte{
      */
     public ProducteSuperReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions) {
         super(nom, marca, categoria, maxPreu, valoracions);
+
     }
     /**
      * Constructor de la classe ProducteSuperReduit sense informació d'avaluacions.
@@ -34,7 +35,9 @@ public class ProducteSuperReduit extends Producte{
     public ProducteSuperReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu, String tenda) {
         super(nom, marca, categoria, maxPreu);
         if(preuTenda >= 100) {
-            iva = 0;
+            this.iva = 0;
+        }else{
+            this.iva = 4;
         }
         this.preuTenda = preu;
         this.tenda = tenda;

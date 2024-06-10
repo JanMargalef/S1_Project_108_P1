@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ProducteReduit extends Producte{
 
-    private transient Integer iva = 10;
+    private Integer iva = 10;
     private String tenda;
 
     private float preuTenda;
@@ -23,6 +23,7 @@ public class ProducteReduit extends Producte{
      */
     public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions) {
         super(nom, marca, categoria, maxPreu, valoracions);
+
     }
 
     /**
