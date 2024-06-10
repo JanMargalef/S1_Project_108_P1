@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ProducteSuperReduit extends Producte{
 
-    private Integer iva = 4;
+    private float iva;
     private String tenda;
     private float preuTenda;
 
@@ -34,7 +34,7 @@ public class ProducteSuperReduit extends Producte{
      */
     public ProducteSuperReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu, String tenda) {
         super(nom, marca, categoria, maxPreu);
-        if(preuTenda >= 100) {
+        if(preu >= 100) {
             this.iva = 0;
         }else{
             this.iva = 4;
@@ -49,7 +49,7 @@ public class ProducteSuperReduit extends Producte{
      * @return Valor de l'IVA del producte amb impost súper reduït.
      */
     @Override
-    public int getIva() {
+    public float getIva() {
         return iva;
     }
 
@@ -63,15 +63,15 @@ public class ProducteSuperReduit extends Producte{
         float preuOriginal = 0;
         switch (recalcular){
             case 0:
-                preuOriginal= preuTenda/ (1 - (iva/100));
+                preuOriginal= preuTenda/ (1 + (iva/100));
                 break;
             case 1:
-                float preubase = preuTenda/ (1 - (iva/100));
-                preuOriginal = preubase/ (1 - (iva/100));
+                float preubase = preuTenda/ (1 + (iva/100));
+                preuOriginal = preubase/ (1 + (iva/100));
                 break;
             case 2:
                 float preuDescompte = preuTenda * (90/100);
-                preuOriginal = preuDescompte/ (1 - (iva/100));
+                preuOriginal = preuDescompte/ (1 + (iva/100));
                 break;
         }
 

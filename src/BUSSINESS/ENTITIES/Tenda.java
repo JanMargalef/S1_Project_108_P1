@@ -147,12 +147,11 @@ public class Tenda {
      * Funció que calcula el preu de tots els productes amb els seus descomptes pertinents.
      *
      * @param productes llista de productes que compra l'usuari.
-     * @param checkout boolea que indica si l'usuari realitza ja la compra.
-     *
+     * @param checkout  boolea que indica si l'usuari realitza ja la compra.
      * @return cost total de la compra.
      */
-    public float calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
-        return 0;
+    public ArrayList<Float> calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
+        return new ArrayList<>();
     }
 
 }

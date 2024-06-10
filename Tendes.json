@@ -1,20 +1,40 @@
 [
   {
-    "beneficiTotal": 0.0,
+    "beneficiTotal": 300.0,
     "name": "MaxProfit1",
     "description": "bb",
     "since": 2005,
-    "earnings": 0.0,
+    "earnings": 300.0,
     "businessModel": "MAX_PROFIT",
     "catalogue": [
       {
-        "iva": 21,
+        "iva": 21.0,
         "tenda": "MaxProfit1",
-        "preuTenda": 20.0,
-        "name": "General1",
-        "brand": "Misco",
-        "mrp": 110.0,
+        "preuTenda": 100.0,
+        "name": "General2",
+        "brand": "Jones",
+        "mrp": 120.0,
         "category": "GENERAL",
+        "reviews": []
+      },
+      {
+        "iva": 10.0,
+        "tenda": "MaxProfit1",
+        "preuTenda": 100.0,
+        "name": "Reduced1",
+        "brand": "Jones",
+        "mrp": 190.0,
+        "category": "REDUCED",
+        "reviews": []
+      },
+      {
+        "iva": 0.0,
+        "tenda": "MaxProfit1",
+        "preuTenda": 100.0,
+        "name": "SuperReduced1",
+        "brand": "Elver",
+        "mrp": 290.0,
+        "category": "SUPER_REDUCED",
         "reviews": []
       }
     ]
@@ -33,9 +53,40 @@
     "name": "Loyalty1",
     "description": "dd",
     "since": 2003,
-    "earnings": 0.0,
+    "earnings": 150.94595,
     "businessModel": "LOYALTY",
-    "catalogue": []
+    "catalogue": [
+      {
+        "iva": 21.0,
+        "tenda": "Loyalty1",
+        "preuTenda": 100.0,
+        "name": "General2",
+        "brand": "Jones",
+        "mrp": 120.0,
+        "category": "GENERAL",
+        "reviews": []
+      },
+      {
+        "iva": 10.0,
+        "tenda": "Loyalty1",
+        "preuTenda": 100.0,
+        "name": "Reduced1",
+        "brand": "Jones",
+        "mrp": 190.0,
+        "category": "REDUCED",
+        "reviews": []
+      },
+      {
+        "iva": 0.0,
+        "tenda": "Loyalty1",
+        "preuTenda": 100.0,
+        "name": "SuperReduced1",
+        "brand": "Elver",
+        "mrp": 290.0,
+        "category": "SUPER_REDUCED",
+        "reviews": []
+      }
+    ]
   },
   {
     "loyaltyThreshold": 0.0,
@@ -53,7 +104,38 @@
     "since": 2006,
     "earnings": 0.0,
     "businessModel": "SPONSORED",
-    "catalogue": []
+    "catalogue": [
+      {
+        "iva": 21.0,
+        "tenda": "Sponsored1",
+        "preuTenda": 100.0,
+        "name": "General2",
+        "brand": "Jones",
+        "mrp": 120.0,
+        "category": "GENERAL",
+        "reviews": []
+      },
+      {
+        "iva": 10.0,
+        "tenda": "Sponsored1",
+        "preuTenda": 100.0,
+        "name": "Reduced1",
+        "brand": "Jones",
+        "mrp": 190.0,
+        "category": "REDUCED",
+        "reviews": []
+      },
+      {
+        "iva": 0.0,
+        "tenda": "Sponsored1",
+        "preuTenda": 100.0,
+        "name": "SuperReduced1",
+        "brand": "Elver",
+        "mrp": 290.0,
+        "category": "SUPER_REDUCED",
+        "reviews": []
+      }
+    ]
   },
   {
     "sponsorBrand": "Jones",

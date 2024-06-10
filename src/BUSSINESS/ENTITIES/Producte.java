@@ -136,7 +136,7 @@ public class Producte {
      *
      * @return Valor de l'IVA del producte amb impost reduït.
      */
-    public int getIva() {
+    public float getIva() {
         return 0;
     }
 

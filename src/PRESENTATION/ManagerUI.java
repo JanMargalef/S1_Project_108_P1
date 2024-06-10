@@ -830,17 +830,17 @@ public class ManagerUI {
      * @param carret es passa el carret per mostrar tots els productes que te en ell
      * @return retorna la opcio elegida en valor de integer
      */
-    public int selectCarretFunction(Carret carret, float clientTotal){
+    public int selectCarretFunction(Carret carret, ArrayList<Float> clientTotal){
         float totalPrice = 0;
         int option = 0;
 
         System.out.println("\nYour cart contains the following items:\n");
         for(int i = 0; i < carret.getProductesCarrito().size(); i++){
             System.out.println("\t- \"" + carret.getProductesCarrito().get(i).getName() + "\" by \"" + carret.getProductesCarrito().get(i).getBrand() + "\"");
-            System.out.println("\t\tPrice: " + carret.getProductesCarrito().get(i).getPreuIva(false) + "\"\n");
+            System.out.println("\t\tPrice: " + clientTotal.get(i) + "\"\n");
         }
 
-        System.out.println("Total: " + clientTotal + "\n");
+        System.out.println("Total: " + clientTotal.getLast() + "\n");
         System.out.println( "\t1) Checkout\n" +
                 "\t2) Clear cart\n\n" +
                 "\t3) Back\n");

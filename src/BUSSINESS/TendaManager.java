@@ -393,10 +393,10 @@ public class TendaManager {
      * @param checkout Indica si es tracta d'un procés de pagament (true) o simplement d'una consulta (false).
      * @return El cost total per al client.
      */
-    public float checkout(Boolean checkout) {
+    public ArrayList<Float> checkout(Boolean checkout) {
         ArrayList<Producte> carritoProductes = carrito.getProductesCarrito();
         ArrayList<Producte> productesTenda =new ArrayList<>();
-
+        ArrayList<Float> preuProductes = new ArrayList<>();
         float totalClient = 0;
 
 
@@ -408,10 +408,19 @@ public class TendaManager {
                     //carritoProductes.remove(producteCarret); // els eliminem de el carrito
                 }
             }
-            totalClient += tenda.calculPreuProductes(productesTenda, checkout); // calcula el preu de tot lo comprat a la seva tenda;
-        }
+            if(!productesTenda.isEmpty()){
+                ArrayList<Float> aux = tenda.calculPreuProductes(productesTenda, checkout); // retorna el total de cost de aquella tenda mes el preu de cada un ordenat
+                totalClient +=  aux.getLast();// calcula el preu de tot lo comprat a la seva tenda;
 
-        return totalClient;
+                preuProductes = aux; // ho igualem aixi tenim el total i els productes
+                preuProductes.removeLast(); // eliminem el ultim que es el total el qual sera sumat despres amb les altres tendes
+
+            }
+
+        }
+        preuProductes.addLast(totalClient); // afegim a tots els preus ordenats el total
+
+        return preuProductes;
     }
 
     /**
