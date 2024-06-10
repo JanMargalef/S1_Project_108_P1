@@ -105,9 +105,12 @@ public class Producte {
     //*********************************__VERIFICAR FORMATS__**********************************************************************
 
     /**
-     * corretgeix el format de la string de marca
-     * @param frase
-     * @return
+     * Corretgeix el format de la string de marca fent que totes les
+     * paraules comencin per majúscula.
+     *
+     * @param frase Frase original.
+     *
+     * @return frase amb totes les paraules començant amb majúscula.
      */
     private String CorregirFormatString(String frase){
         frase = frase.toLowerCase();
@@ -128,15 +131,42 @@ public class Producte {
         return frase;
     }
 
-    public int getIva() {
+    /**
+     * Obté l'Impost sobre el Valor Afegit (IVA) associat al producte amb impost reduït.
+     *
+     * @return Valor de l'IVA del producte amb impost reduït.
+     */
+    public float getIva() {
         return 0;
     }
 
-    public float getPreuBase() {
+    /**
+     * Es calcula el preu base del producte. Aquest no te en compte el IVA ni els descomptes.
+     *
+     * @return float amb el preu base del producte.
+     */
+    public float getPreuBase(int recalcular) {
+        // si es 0, es calcula normal, si es 1 es recalcula el preu base a partir del preu base, si es 2 es fa a partir del preu normal amb 10% descompte
         return 0;
     }
 
-    public float getPreuIva() {
+    /**
+     * Calcula el preu de venda amb iva i tenint en compte les ofertes.
+     *
+     * @param descompte boolea que indica si hi ha una oferta a aplicar.
+     *
+     * @return el preu final.
+     */
+    public float getPreuIva(boolean descompte) {
         return 0;
+    }
+
+    /**
+     * S'obté la tenda on es ven el producte.
+     *
+     * @return la tenda on es ven el producte.
+     */
+    public String getTenda(){
+        return null;
     }
 }

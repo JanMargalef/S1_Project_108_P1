@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * model de negoci i catàleg de productes.
  */
 public class Tenda {
+    private transient float lastBenefit;
     private String name;
     private String description;
     private int since;
@@ -51,14 +52,7 @@ public class Tenda {
         this.since = anyFundacio;
         this.catalogue.addAll(catalogue);
 
-    } /**Constructor de l'objecte tenda al qual es passen els atributs de la tenda que es vol crear
-     *
-     * @param nom
-     * @param descripcio
-     * @param anyFundacio
-     * @param modelNegoci
-     * @param catalogue
-     */
+    }
 
 
 
@@ -134,11 +128,46 @@ public class Tenda {
     }
 
     /**
-     * suma el guanyat a el total de ganancies
+     * suma el guanyat a el total de ganancies i guarda el ultim benefici
      * @param profit
      */
     public void setEarnings(float profit){
+        this.lastBenefit = profit;
         this.earnings = earnings + profit;
     }
 
+    /**
+     * Obté el llindar de fidelitat per a la tenda.
+     *
+     * @return El llindar de fidelitat com a valor de punt flotant (Float).
+     */
+    public String getSpecialCaracteristica() {
+        return "";
+    }
+
+    /**
+     * Funció que calcula el preu de tots els productes amb els seus descomptes pertinents.
+     *
+     * @param productes llista de productes que compra l'usuari.
+     * @param checkout  boolea que indica si l'usuari realitza ja la compra.
+     * @return cost total de la compra.
+     */
+    public ArrayList<Float> calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
+        return new ArrayList<>();
+    }
+
+    /**
+     * Obté el ultim benefici per a la tenda si no sha sortit de la aplicació.
+     *
+     * @return El ultim benefici com a valor de punt flotant (Float).
+     */
+    public float getLastBenefit() {
+        return lastBenefit;
+    }
+/**
+ * reseteja el ultim benefici per a la tenda si no sha sortit de la aplicació.
+ */
+    public void resetLastBenefit() {
+        lastBenefit = 0;
+    }
 }

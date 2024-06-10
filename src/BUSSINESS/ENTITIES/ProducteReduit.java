@@ -1,7 +1,5 @@
 package BUSSINESS.ENTITIES;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.ArrayList;
 
 /**
@@ -9,7 +7,8 @@ import java.util.ArrayList;
  */
 public class ProducteReduit extends Producte{
 
-    private transient Integer iva = 10;
+    private static final float iva = 10;
+    private String tenda;
 
     private float preuTenda;
 
@@ -24,6 +23,7 @@ public class ProducteReduit extends Producte{
      */
     public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions) {
         super(nom, marca, categoria, maxPreu, valoracions);
+
     }
 
     /**
@@ -34,26 +34,69 @@ public class ProducteReduit extends Producte{
      * @param categoria Categoria del producte.
      * @param maxPreu Preu màxim del producte.
      */
-    public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu) {
+    public ProducteReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu, String tenda) {
         super(nom, marca, categoria, maxPreu);
         this.preuTenda = preu;
+        this.tenda = tenda;
     }
+
     /**
      * Obté l'Impost sobre el Valor Afegit (IVA) associat al producte amb impost reduït.
      *
      * @return Valor de l'IVA del producte amb impost reduït.
      */
     @Override
-    public int getIva() {
+    public float getIva() {
         return iva;
     }
+
+    /**
+     * Es calcula el preu base del producte. Aquest no te en compte el IVA ni els descomptes.
+     *
+     * @return float amb el preu base del producte.
+     */
     @Override
-    public float getPreuBase() {
-        float preuOriginal= preuTenda/ (1 - (iva/100));
+    public float getPreuBase(int recalcular) {
+        float preuOriginal = 0;
+        switch (recalcular){
+            case 0:
+                preuOriginal= preuTenda/(1 + (iva/100));
+                break;
+            case 1:
+                float preuBase = preuTenda/(1 + (iva/100));
+                preuOriginal = preuBase/(1 + (iva/100));
+                break;
+            case 2:
+                float preuDescompte = preuTenda*((float)90/100);
+                preuOriginal = preuDescompte/(1 + (iva/100));
+                break;
+        }
+
         return preuOriginal;
     }
+
+    /**
+     * Calcula el preu de venda amb iva i tenint en compte les ofertes.
+     *
+     * @param descompte boolea que indica si hi ha una oferta a aplicar.
+     *
+     * @return el preu final.
+     */
     @Override
-    public float getPreuIva(){
+    public float getPreuIva(boolean descompte){
+        if(descompte){
+            return preuTenda *((float)90/100);
+        }
         return preuTenda;
+    }
+
+    /**
+     * S'obté la tenda on es ven el producte.
+     *
+     * @return la tenda on es ven el producte.
+     */
+    @Override
+    public String getTenda(){
+        return tenda;
     }
 }

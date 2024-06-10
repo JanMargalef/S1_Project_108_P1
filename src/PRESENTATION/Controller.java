@@ -5,6 +5,7 @@ import BUSSINESS.ProductManager;
 import BUSSINESS.TendaManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Classe que actua com a controlador per gestionar la lògica de negoci entre la interfície d'usuari (UI),
@@ -40,49 +41,37 @@ public class Controller {
     public void run() throws IOException{
 
         while (true){
+            loadFiles();
             switch (managerUI.showMenuPrincipal()){ // mostrar el menu principal, depenent de elecció anem a un menu o un altre
                 case MenuOpcions.GESTIO_PRODUCTES:
-                    loadFiles();
                     gestioProductes();
-                    saveFiles();
-
                     break;
 
                 case MenuOpcions.GESTIO_TENDES:
-                    loadFiles();
                     gestioTendes();
-                    saveFiles();
                     break;
 
                 case MenuOpcions.BUSCAR_PRODUCTES:
-                    loadFiles();
                     buscarProductes();
-                    saveFiles();
                     break;
 
 
                 case MenuOpcions.LLISTAR_TENDES:
-                    loadFiles();
                     llistarTendes();
-                    saveFiles();
-
-
                     break;
 
                 case MenuOpcions.CARRITO:
-                    loadFiles();
-                    //carrito();
-                    saveFiles();
+                    carrito();
                     break;
 
 
                 case MenuOpcions.EXIT:
-                    loadFiles();
                     this.managerUI.exit();
                     saveFiles();
                     System.exit(0);
                     break;
             }
+            saveFiles();
         }
     }
 
@@ -126,7 +115,8 @@ public class Controller {
      * Verifica la connexió amb les APIs i gestiona possibles errors durant la càrrega de dades.
      * En cas d'errors crítics, mostra missatges d'error i surt del sistema.
      *
-     * @throws IOException Si es produeix un error crític durant la càrrega de dades i es surt del sistema.
+     * @param apiConnectedError enter que informa de l'error en questió.
+     * @param isProduct boolea que és cert quan l'error és referent a un producte, i fals si es tracta d'una tenda.
      *
      */
     private void checkApiConection(int apiConnectedError, boolean isProduct) {
@@ -147,30 +137,39 @@ public class Controller {
     }
 
 
+    /**
+     * Es mosta a l'usuari les diferents accions referents al carro de la compra i es
+     * permet comprar tot el seu contingut o buidar-lo.
+     */
+    private void carrito() {
+        switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.checkout(false))){
+            case 1:
+                if(managerUI.makeSure("checkout")){
+                    ArrayList<Float> preus = managerTenda.checkout(true);
+                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes(), preus);
+                    managerTenda.clearCart();
+                    managerUI.clearCartDone();
+                }
+                break;
 
-//    private void carrito() {
-//        switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.calculCarretClientTenda(false))){
-//            case 1:
-//                if(managerUI.makeSure("checkout")){
-//                    managerTenda.checkout();
-//                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes());
-//                    managerTenda.clearCart();
-//                    managerUI.clearCartDone();
-//                }
-//                break;
-//
-//            case 2:
-//                if(managerUI.makeSure("clear your cart")) {
-//                    managerTenda.clearCart();
-//                    managerUI.clearCartDone();
-//                }
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
+            case 2:
+                if(managerUI.makeSure("clear your cart")) {
+                    managerTenda.clearCart();
+                    managerUI.clearCartDone();
+                }
+                break;
 
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Es printa la llista de tendes i es demana seleccionar una d'elles.
+     * En seleccionar-ne una es mostra la llista d'objectes que aquesta ofereix.
+     * Per a cada producte, es pot llegir les reviews, afegirne una, o afegir el
+     * producte al carro de la compra.
+     */
     private void llistarTendes() {
         int indexTenda = 0;
         int indexProduct = 0;
@@ -207,6 +206,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Es demana a l'usuari el nom del producte desitjat i es printa la llista de productes
+     * que coincideixen. Per a cada un d'aquests es pot llegir les reviews o afegirne una.
+     */
     private void buscarProductes() {
         String query = managerUI.requestQuery();
         Producte producte = managerUI.showAskedProducts(managerTenda.getTendes(),managerProducte.getProductes(), query);
@@ -220,6 +223,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Permet a l'usari gestionar les tendes: crear-les o expandir/reduir el cataleg.
+     */
     private void gestioTendes() {
         MenuGestioTendes select = managerUI.menuGestioTendes();
         switch (select){
@@ -320,6 +326,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Permet a l'usuari crear o eliminar productes de les tendes.
+     */
     private void gestioProductes() {
         MenuGestioProductes selected;
         selected = managerUI.menuGestioProducte(); // seleccionem submenu de gestio de productes
@@ -330,13 +339,13 @@ public class Controller {
                     managerUI.producteCreat();
                 }else{
                     managerUI.producteExistent();
-                    selected =MenuGestioProductes.BACK; // tornem al menu principal com diu l'enunciat
+                    selected = MenuGestioProductes.BACK; // tornem al menu principal com diu l'enunciat
                 }
 
                 // afegim el producte a la llista principal de productes
 
-
                 break;
+
             case BORRAR_PRODUCTE:
                 loadFiles();
                 int index = managerUI.requestDeleteProducte(managerProducte.getProductes());

@@ -38,7 +38,61 @@ public class TendaSponsor extends Tenda{
         this.sponsorBrand = sponsorBrand;
     }
 
-    public String getSponsorBrand() {
+    /**
+     * Obté el llindar de fidelitat per a la tenda.
+     *
+     * @return El llindar de fidelitat com a valor de punt flotant (Float).
+     */
+    @Override
+    public String getSpecialCaracteristica() {
         return sponsorBrand;
+    }
+
+    /**
+     * Funció que calcula el preu de tots els productes amb els seus descomptes pertinents.
+     *
+     * @param productes llista de productes que compra l'usuari.
+     * @param checkout  boolea que indica si l'usuari realitza ja la compra.
+     * @return cost total de la compra.
+     */
+    @Override
+    public ArrayList<Float> calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
+        ArrayList<Float> PreuProductes = new ArrayList<Float>();
+        float cost = 0;
+        float benefici = 0;
+        boolean aplicarDescompte = false;
+        for (Producte producte: productes) {
+            if(producte.getBrand().equals(sponsorBrand)){
+                aplicarDescompte = true;
+            }
+        }
+        if(aplicarDescompte){
+            for (Producte producte: productes) {
+                float preu = producte.getPreuIva(true);
+                cost += preu;
+                PreuProductes.addLast(preu);
+                benefici += producte.getPreuBase(2);
+
+            }
+
+            PreuProductes.addLast(cost);
+
+
+        }else{
+            for (Producte producte: productes) {
+                float preu = producte.getPreuIva(false);
+                cost += preu;
+                PreuProductes.addLast(preu);
+                benefici += producte.getPreuBase(0);
+
+            }
+            PreuProductes.addLast(cost);
+        }
+
+        if(checkout){ // si realment vol finalitzar la compra ja es sumen els beneficis a la tenda
+            this.setEarnings(benefici);
+
+        }
+        return PreuProductes;
     }
 }
