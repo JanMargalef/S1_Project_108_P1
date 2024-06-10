@@ -50,6 +50,12 @@ public class ProducteGeneral extends Producte{
     public int getIva() {
         return iva;
     }
+
+    /**
+     * Es calcula el preu base del producte. Aquest no te en compte el IVA ni els descomptes.
+     *
+     * @return float amb el preu base del producte.
+     */
     @Override
     public float getPreuBase(int recalcular) {
         float preuOriginal = 0;
@@ -69,6 +75,14 @@ public class ProducteGeneral extends Producte{
 
         return preuOriginal;
     }
+
+    /**
+     * Calcula el preu de venda amb iva i tenint en compte les ofertes.
+     *
+     * @param descompte boolea que indica si hi ha una oferta a aplicar.
+     *
+     * @return el preu final.
+     */
     @Override
     public float getPreuIva(boolean descompte){
         if(descompte){
@@ -76,6 +90,12 @@ public class ProducteGeneral extends Producte{
         }
         return preuTenda;
     }
+
+    /**
+     * S'obté la tenda on es ven el producte.
+     *
+     * @return la tenda on es ven el producte.
+     */
     @Override
     public String getTenda(){
         return tenda;

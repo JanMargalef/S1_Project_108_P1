@@ -51,14 +51,7 @@ public class Tenda {
         this.since = anyFundacio;
         this.catalogue.addAll(catalogue);
 
-    } /**Constructor de l'objecte tenda al qual es passen els atributs de la tenda que es vol crear
-     *
-     * @param nom
-     * @param descripcio
-     * @param anyFundacio
-     * @param modelNegoci
-     * @param catalogue
-     */
+    }
 
 
 
@@ -141,15 +134,24 @@ public class Tenda {
         this.earnings = earnings + profit;
     }
 
+    /**
+     * Obté el llindar de fidelitat per a la tenda.
+     *
+     * @return El llindar de fidelitat com a valor de punt flotant (Float).
+     */
     public String getSpecialCaracteristica() {
         return "";
     }
 
+    /**
+     * Funció que calcula el preu de tots els productes amb els seus descomptes pertinents.
+     *
+     * @param productes llista de productes que compra l'usuari.
+     * @param checkout boolea que indica si l'usuari realitza ja la compra.
+     *
+     * @return cost total de la compra.
+     */
     public float calculPreuProductes(ArrayList<Producte> productes, boolean checkout){
-        return 0;
-    }
-
-    public float calculBeneficiTenda(ArrayList<Producte> productes){
         return 0;
     }
 
