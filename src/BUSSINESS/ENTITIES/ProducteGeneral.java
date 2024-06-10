@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ProducteGeneral extends Producte{
 
 
-    private float iva = 21;
+    private static final float iva = 21;
     private String tenda;
 
     private float preuTenda;
@@ -68,7 +68,7 @@ public class ProducteGeneral extends Producte{
                 preuOriginal = preubase/(1 + (iva/100));
                 break;
             case 2:
-                float preuDescompte = preuTenda * (90/100);
+                float preuDescompte = preuTenda * ((float)90/100);
                 preuOriginal = preuDescompte/(1 + (iva/100));
                 break;
         }
@@ -86,7 +86,7 @@ public class ProducteGeneral extends Producte{
     @Override
     public float getPreuIva(boolean descompte){
         if(descompte){
-            return preuTenda *(90/100);
+            return preuTenda *((float)90/100);
         }
         return preuTenda;
     }

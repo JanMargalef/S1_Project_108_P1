@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class TendaGeneral extends Tenda{
 
-    private float beneficiTotal;
 
     /**
      * Constructor de l'objecte tenda al qual es passen els atributs de la tenda que es vol crear
@@ -21,7 +20,7 @@ public class TendaGeneral extends Tenda{
      */
     public TendaGeneral(String nom, String descripcio, int anyFundacio, float ganacies, String modelNegoci, ArrayList<Producte> catalogue) {
         super(nom, descripcio, anyFundacio, ganacies, modelNegoci, catalogue);
-        beneficiTotal = ganacies;
+
     }
 
     /**
@@ -35,7 +34,7 @@ public class TendaGeneral extends Tenda{
      */
     public TendaGeneral(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<Producte> catalogue) {
         super(nom, descripcio, anyFundacio, modelNegoci, catalogue);
-        beneficiTotal = 0;
+
     }
 
     /**

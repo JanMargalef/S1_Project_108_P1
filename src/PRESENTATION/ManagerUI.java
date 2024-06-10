@@ -895,16 +895,20 @@ public class ManagerUI {
      * Finalitza la compra de l'usuari mostrant la tenda de on s'ha comprat i el total de profit que ha tingut
      * @param carrito carrito on estan els productes comprats per l'usuari
      * @param tendes arraylist de tendes on estan totes les tendes per mostrar les ganaces que han tingut
+     * @param preus arraylist de preus dels productes del carret ordenats per la posicio dels productes del carret
      */
-    public void checkoutCompra(ArrayList<Producte> carrito, ArrayList<Tenda> tendes){
+    public void checkoutCompra(ArrayList<Producte> carrito, ArrayList<Tenda> tendes, ArrayList<Float> preus){
+
+        int beneficioIndex = carrito.size() + 1;
+        ArrayList<String> tiendasCompradas = new ArrayList<>();
         for (Producte carret: carrito) {
-            for (Tenda tenda: tendes) {
-//                if(carret.getTenda().equals(tenda.getName())){
-//                    System.out.println("\"" + tenda.getName() + "\" has earned " + carret.getPreuIva() + " for an historic total of " + tenda.getEarnings());
-//                }
-
+            if(!tiendasCompradas.contains(carret.getTenda())){
+                tiendasCompradas.add(carret.getTenda());
             }
-
+        }
+        for (int i = 0; i < tiendasCompradas.size(); i++) {
+            float totalTenda = preus.get(beneficioIndex + i);
+            System.out.println("\"" + tendes.get(i).getName() + "\" has earned " + totalTenda + " for an historic total of " + tendes.get(i).getEarnings());
         }
     }
 

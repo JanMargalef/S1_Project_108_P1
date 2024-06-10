@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * model de negoci i catàleg de productes.
  */
 public class Tenda {
+    private transient float lastBenefit;
     private String name;
     private String description;
     private int since;
@@ -127,10 +128,11 @@ public class Tenda {
     }
 
     /**
-     * suma el guanyat a el total de ganancies
+     * suma el guanyat a el total de ganancies i guarda el ultim benefici
      * @param profit
      */
     public void setEarnings(float profit){
+        this.lastBenefit = profit;
         this.earnings = earnings + profit;
     }
 
@@ -154,4 +156,18 @@ public class Tenda {
         return new ArrayList<>();
     }
 
+    /**
+     * Obté el ultim benefici per a la tenda si no sha sortit de la aplicació.
+     *
+     * @return El ultim benefici com a valor de punt flotant (Float).
+     */
+    public float getLastBenefit() {
+        return lastBenefit;
+    }
+/**
+ * reseteja el ultim benefici per a la tenda si no sha sortit de la aplicació.
+ */
+    public void resetLastBenefit() {
+        lastBenefit = 0;
+    }
 }

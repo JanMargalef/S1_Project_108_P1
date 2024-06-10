@@ -5,6 +5,7 @@ import BUSSINESS.ProductManager;
 import BUSSINESS.TendaManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Classe que actua com a controlador per gestionar la lògica de negoci entre la interfície d'usuari (UI),
@@ -144,8 +145,8 @@ public class Controller {
         switch(managerUI.selectCarretFunction(managerTenda.getCarrito(), managerTenda.checkout(false))){
             case 1:
                 if(managerUI.makeSure("checkout")){
-                    managerTenda.checkout(true);
-                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes());
+                    ArrayList<Float> preus = managerTenda.checkout(true);
+                    managerUI.checkoutCompra(managerTenda.getCarrito().getProductesCarrito(),managerTenda.getTendes(), preus);
                     managerTenda.clearCart();
                     managerUI.clearCartDone();
                 }

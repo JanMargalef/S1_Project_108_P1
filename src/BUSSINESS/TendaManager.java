@@ -411,14 +411,27 @@ public class TendaManager {
             if(!productesTenda.isEmpty()){
                 ArrayList<Float> aux = tenda.calculPreuProductes(productesTenda, checkout); // retorna el total de cost de aquella tenda mes el preu de cada un ordenat
                 totalClient +=  aux.getLast();// calcula el preu de tot lo comprat a la seva tenda;
-
-                preuProductes = aux; // ho igualem aixi tenim el total i els productes
-                preuProductes.removeLast(); // eliminem el ultim que es el total el qual sera sumat despres amb les altres tendes
+                aux.removeLast();
+                preuProductes.addAll(aux); // ho igualem aixi tenim el total i els productes
 
             }
 
         }
         preuProductes.addLast(totalClient); // afegim a tots els preus ordenats el total
+
+        if(checkout){
+            float ultimBenefici = 0;
+            for (Tenda tenda : tendes) {
+                for (Producte producteCarret: carritoProductes) {
+                    if (producteCarret.getTenda().equals(tenda.getName())){
+                        ultimBenefici = tenda.getLastBenefit();
+                        preuProductes.addLast(ultimBenefici);
+                        tenda.resetLastBenefit();
+                        break;
+                    }
+                }
+            }
+        }
 
         return preuProductes;
     }

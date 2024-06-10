@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ProducteSuperReduit extends Producte{
 
-    private float iva;
+    private static final float iva = 4;
     private String tenda;
     private float preuTenda;
 
@@ -34,11 +34,6 @@ public class ProducteSuperReduit extends Producte{
      */
     public ProducteSuperReduit(String nom, String marca, String categoria, float maxPreu, ArrayList<String> valoracions, float preu, String tenda) {
         super(nom, marca, categoria, maxPreu);
-        if(preu >= 100) {
-            this.iva = 0;
-        }else{
-            this.iva = 4;
-        }
         this.preuTenda = preu;
         this.tenda = tenda;
     }
@@ -63,15 +58,30 @@ public class ProducteSuperReduit extends Producte{
         float preuOriginal = 0;
         switch (recalcular){
             case 0:
-                preuOriginal= preuTenda/ (1 + (iva/100));
+                if(preuTenda < 100){
+                    preuOriginal= preuTenda/ (1 + (iva/100));
+
+                }else{
+                    preuOriginal = preuTenda;
+                }
                 break;
             case 1:
-                float preubase = preuTenda/ (1 + (iva/100));
-                preuOriginal = preubase/ (1 + (iva/100));
+                if(preuTenda < 100){
+                    float preubase = preuTenda/ (1 + (iva/100));
+                    preuOriginal = preubase/ (1 + (iva/100));
+                }else{
+                    preuOriginal = preuTenda;
+                }
+
                 break;
             case 2:
-                float preuDescompte = preuTenda * (90/100);
-                preuOriginal = preuDescompte/ (1 + (iva/100));
+                float preuDescompte = preuTenda * ((float)90/100);
+                if(preuTenda < 100){
+                    preuOriginal = preuDescompte/ (1 + (iva/100));
+
+                }else{// aplica un iva de un 0
+                    preuOriginal = preuDescompte;
+                }
                 break;
         }
 
@@ -88,7 +98,7 @@ public class ProducteSuperReduit extends Producte{
     @Override
     public float getPreuIva(boolean descompte){
         if(descompte){
-            return preuTenda *(90/100);
+            return preuTenda *((float)90/100);
         }
         return preuTenda;
     }
