@@ -615,37 +615,43 @@ public class ManagerUI {
 
         System.out.println("The following products where found:\n");
         int contador = 0;
-
+        boolean trobatEnTenda = false;
+        boolean coincidencia = false;
         ArrayList<Producte> productesTrobats = new ArrayList<>();
-        for (int y = 0; y < productes.size(); y++) {
-            boolean trobatCataleg = false;
-            if ((productes.get(y).getName().contains(query)) || (productes.get(y).getBrand().contains(query))) {
-                productesTrobats.add(productes.get(y)); // guardem el producte que hem acabat de trobar, ara buscarem si aquest existeix a les tendes
-                System.out.println("   " + (contador + 1) + ") " + productesTrobats.get(contador).getName() + "\" by " + "\"" + productesTrobats.get(contador).getBrand() + "\"");
-                // mostrem el producte
-                for (int x = 0; x < tendes.size(); x++) { // busquem aquest producte al cataleg de les tendes
-                    ArrayList<Producte> catalog = tendes.get(x).getCatalogue();
-                    for (int i = 0; i < catalog.size(); i++) {
-                        if ((catalog.get(i).getName().equals(productesTrobats.getLast().getName()))) {
-                            String nomTenda = tendes.get(x).getName();
-                            float price = catalog.get(i).getPreuIva(false);
 
+        for (Producte product:productes) {
+
+            if(product.getName().contains(query) || product.getBrand().contains(query)){
+                productesTrobats.add(product);
+                System.out.println("   " + (contador + 1) + ") " + product.getName() + "\" by " + "\"" + product.getBrand() + "\"");
+                trobatEnTenda = false;
+                coincidencia = true;
+                contador ++;
+                for (Tenda tenda: tendes) {
+                    ArrayList<Producte> cataleg = tenda.getCatalogue();
+
+                    for (Producte prodCataleg: cataleg) {
+
+                        if(prodCataleg.getName().equals(product.getName())){
+                            String nomTenda = tenda.getName();
+                            float preu = prodCataleg.getPreuIva(false);
+                            trobatEnTenda = true;
                             System.out.println("Sold at:\n" +
-                                    "    - " + nomTenda + ": " + price + "\n");
-                            trobatCataleg = true; // indiquem que si que existeix
-                            contador ++;
+                                    "    - " + nomTenda + ": " + preu + "\n");
                             break;
-
                         }
-
                     }
                 }
-                if (!trobatCataleg) {
+                if (!trobatEnTenda) {
                     System.out.println("This product is not currently being sold in any shops.\n");
-                    contador++;
+
                 }
             }
 
+        }
+
+        if(!coincidencia){
+            System.out.println("This product doesn't exist");
         }
 
         System.out.println("    " + (contador +1) + ") Back");
@@ -675,6 +681,9 @@ public class ManagerUI {
 
 
     }
+
+
+
 
     /**
      * Menu per indicar les opcions que te de reviews
