@@ -590,8 +590,17 @@ public class ManagerUI {
      * @return retorna el valor introduit per el usuari
      */
     public String requestQuery() {
+        String query = "";
         System.out.print("\nEnter your query:");
-        return scanner.nextLine();
+        query = scanner.nextLine();
+        if(query.isEmpty()){
+            do{
+                System.out.print("\nEnter a not empty query:");
+                query = scanner.nextLine();
+            }while (query.isEmpty());
+        }
+
+        return query;
     }
 
     /**
@@ -603,6 +612,7 @@ public class ManagerUI {
      * @return retorna el objecte producte indicant que aquest es el seleccionat
      */
     public Producte showAskedProducts(ArrayList<Tenda> tendes, ArrayList<Producte> productes, String query) {
+
         System.out.println("The following products where found:\n");
         int contador = 0;
 
