@@ -4,9 +4,10 @@ import BUSSINESS.ENTITIES.Producte;
 import BUSSINESS.ENTITIES.ProducteGeneral;
 import BUSSINESS.ENTITIES.ProducteReduit;
 import BUSSINESS.ENTITIES.ProducteSuperReduit;
-import PERSISTANCE.APIPERSISTANCE.ApiDAO;
-import PERSISTANCE.DataPersistance;
+import PERSISTANCE.APIPERSISTANCE.ProducteApiDAO;
+import PERSISTANCE.DataPersistanceJSON;
 import PERSISTANCE.JSONPERSISTANCE.ProducteJsonDAO;
+import com.google.gson.JsonObject;
 import edu.salle.url.api.exception.ApiException;
 
 import java.util.ArrayList;
@@ -35,32 +36,43 @@ public class ProductManager {
      *         - 2: No s'ha pogut connectar amb l'API, carregant dades des del fitxer local.
      */
     public int loadData(){
-        ArrayList<Producte> productesDAO;
+        ArrayList<JsonObject> productesDAO;
         int apiconected = 0;
         try {
 
-            ApiDAO apiDAO = new ApiDAO();
-            productesDAO = apiDAO.loadProductAPI("");
-            if(productesDAO.isEmpty()){
-                DataPersistance dataPersistance = new ProducteJsonDAO();
-                productesDAO = dataPersistance.loadProducteJson();
-                apiconected = 2;
-            }
-            else{
+            ProducteApiDAO apiDAO = new ProducteApiDAO();
+            productesDAO = apiDAO.loadInformation();
+            if(productesDAO == null){
+            DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+            productesDAO = dataPersistance.loadInfoJson();
+                if(productesDAO == null) {
+                    apiconected = 0;
+                }else{
+                    apiconected = 2;
+                }
+                return apiconected;
+            }else {
                 apiconected = 1;
 
             }
 
 
+
         } catch (ApiException e) {
-            DataPersistance dataPersistance = new ProducteJsonDAO();
-            productesDAO = dataPersistance.loadProducteJson();
-            apiconected = 2;
+            DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+            try {
+                productesDAO = dataPersistance.loadInfoJson();
+                apiconected = 2;
+            }catch (NoSuchFieldError error){
+                productesDAO = new ArrayList<>();
+                apiconected = 0;
+            }
 
         }
         productes.clear();
-        for (Producte product: productesDAO) {
-            orderProducts(product);
+        for (Object product: productesDAO) {
+            Producte producte = (Producte) product;
+            orderProducts(producte);
         }
         return apiconected;
 
@@ -77,21 +89,23 @@ public class ProductManager {
         int apiconected = 0;
         try {
 
-            ApiDAO apiDAO = new ApiDAO();
-            if(apiDAO.saveProductAPI(productes)){
+            ProducteApiDAO apiDAO = new ProducteApiDAO();
+            ArrayList<Producte> productes =  ProductManager.getProductes();
+
+            if(apiDAO.saveInformation(ProductManager.getProductes(),null )){
                 apiconected = 1;
 
             }else{
-                DataPersistance dataPersistance = new ProducteJsonDAO();
-                dataPersistance.saveProducteJson(productes);
+                DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+                dataPersistance.saveInfoJson(productes,null);
                 apiconected = 2;
 
             }
 
 
         } catch (ApiException e) {
-        DataPersistance dataPersistance = new ProducteJsonDAO();
-        dataPersistance.saveProducteJson(productes);
+        DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+        dataPersistance.saveInfoJson(productes,null);
         apiconected = 2;
         }
         return apiconected;

@@ -1,8 +1,9 @@
 package BUSSINESS;
 
 import BUSSINESS.ENTITIES.*;
-import PERSISTANCE.APIPERSISTANCE.ApiDAO;
-import PERSISTANCE.DataPersistance;
+import PERSISTANCE.APIPERSISTANCE.ProducteApiDAO;
+import PERSISTANCE.APIPERSISTANCE.TendaApiDAO;
+import PERSISTANCE.DataPersistanceJSON;
 import PERSISTANCE.JSONPERSISTANCE.ProducteJsonDAO;
 import PERSISTANCE.JSONPERSISTANCE.TendaJsonDAO;
 import com.google.gson.Gson;
@@ -39,12 +40,18 @@ public class TendaManager {
         ArrayList<JsonObject> tendaDAO;
         try {
 
-            ApiDAO apiDAO = new ApiDAO();
-            tendaDAO = apiDAO.loadTendaAPI("");
-            if(tendaDAO.isEmpty()){
-                DataPersistance dataPersistance = new TendaJsonDAO();
-                tendaDAO = dataPersistance.loadTendaJson();
-                apiconected = 2;
+            TendaApiDAO apiDAO = new TendaApiDAO();
+            tendaDAO = apiDAO.loadInformation();
+            if(tendaDAO == null) {
+                DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+                tendaDAO = dataPersistance.loadInfoJson();
+                if(tendaDAO == null) {
+                    apiconected = 0;
+                }else{
+                    apiconected = 2;
+                }
+
+                return apiconected;
             }else{
                 apiconected = 1;
 
@@ -52,8 +59,8 @@ public class TendaManager {
 
 
         } catch (ApiException e) {
-            DataPersistance dataPersistance = new ProducteJsonDAO();
-            tendaDAO = dataPersistance.loadTendaJson();
+            DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+            tendaDAO = dataPersistance.loadInfoJson();
             apiconected = 2;
 
         } catch (IOException e) {
@@ -75,20 +82,20 @@ public class TendaManager {
         int apiconected = 0;
         try {
 
-            ApiDAO apiDAO = new ApiDAO();
-            if(apiDAO.saveTendaAPI(tendes)){
+            TendaApiDAO apiDAO = new TendaApiDAO();
+            if(apiDAO.saveInformation(null,tendes)){
                 apiconected = 1;
 
             }else{
-                DataPersistance dataPersistance = new TendaJsonDAO();
-                dataPersistance.saveTendaJson(tendes);
+                DataPersistanceJSON dataPersistance = new TendaJsonDAO();
+                dataPersistance.saveInfoJson(null, tendes);
                 apiconected = 2;
             }
 
 
         } catch (ApiException e) {
-            DataPersistance dataPersistance = new TendaJsonDAO();
-            dataPersistance.saveTendaJson(tendes);
+            DataPersistanceJSON dataPersistance = new TendaJsonDAO();
+            dataPersistance.saveInfoJson(null, tendes);
             apiconected = 2;
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -805,6 +805,7 @@ public class ManagerUI {
                             return 5;
                         default:
                             System.out.println("Enter the caracter '*' for the number of stars");
+                            System.out.print("Please rate the product (1-5 stars):");
                             break;
                     }
                 }
@@ -968,8 +969,13 @@ public class ManagerUI {
             }
         }
         for (int i = 0; i < tiendasCompradas.size(); i++) {
-            float totalTenda = preus.get(beneficioIndex + i);
-            System.out.println("\"" + tendes.get(i).getName() + "\" has earned " + totalTenda + " for an historic total of " + tendes.get(i).getEarnings());
+            for (int t = 0; t < tendes.size(); t++) {
+                if (tendes.get(t).getName().equals(tiendasCompradas.get(i))) {
+
+                    float totalTenda = preus.get(beneficioIndex + i);
+                    System.out.println("\"" + tendes.get(t).getName() + "\" has earned " + totalTenda + " for an historic total of " + tendes.get(t).getEarnings());
+                }
+            }
         }
     }
 
