@@ -395,33 +395,42 @@ public class ManagerUI {
         for (int i = 0; i < productes.size(); i++) {
             System.out.println(i + 1 + ") \"" + productes.get(i).getName() + "\" by \"" + productes.get(i).getBrand() + "\"");
         }
-        System.out.print("\n" + (productes.size() + 1) + ") Back\n\n" + "Which one would you like to remove?");
-        try {
-            option = Integer.parseInt(this.scanner.nextLine()) - 1;
+        System.out.print("\n" + (productes.size() + 1) + ") Back\n\n");
+        boolean correct = false;
+        do{
+            try {
+                System.out.print("Which one would you like to remove?");
+                option = Integer.parseInt(this.scanner.nextLine()) - 1;
 
-            if (option < productes.size()) {
-                System.out.print("Are you sure you want to remove \"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\"? ");
-                String confirmation = this.scanner.nextLine().toLowerCase();
-
-                while (!confirmation.equals("yes") && !confirmation.equals("no")) {
-                    System.out.println("Please enter 'yes' or 'no'.");
+                if (option < productes.size()) {
+                    correct = true;
                     System.out.print("Are you sure you want to remove \"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\"? ");
-                    confirmation = this.scanner.nextLine().toLowerCase();
-                }
+                    String confirmation = this.scanner.nextLine().toLowerCase();
 
-                if (confirmation.equals("yes")) {
-                    System.out.print("\"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\" has been withdrawn from sale.");
-                    return option;
-                } else if (confirmation.equals("no")) {
+                    while (!confirmation.equals("yes") && !confirmation.equals("no")) {
+                        System.out.println("Please enter 'yes' or 'no'.");
+                        System.out.print("Are you sure you want to remove \"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\"? ");
+                        confirmation = this.scanner.nextLine().toLowerCase();
+                    }
+
+                    if (confirmation.equals("yes")) {
+                        System.out.println("\"" + productes.get(option).getName() + "\" by \"" + productes.get(option).getBrand() + "\" has been withdrawn from sale.");
+                        return option;
+                    } else if (confirmation.equals("no")) {
+                        return productes.size();
+                    }
+                } else if (option == productes.size()) {
                     return productes.size();
+                }else {
+                    System.out.println("ERROR: Please enter a valid option.");
                 }
-            } else if (option == productes.size()) {
-                return productes.size();
-            }
 
-        } catch (Exception e) {
-            System.out.println("ERROR: Please enter a valid option.");
-        }
+            } catch (Exception e) {
+                System.out.println("ERROR: Please enter a valid option.");
+                correct = false;
+            }
+        }while (!correct);
+
 
         System.out.println("ERROR: Please enter a valid option.");
 
@@ -492,7 +501,7 @@ public class ManagerUI {
      * @return Retorna en forma de string la eleccio feta per el usuari
      */
     public String requestModelNegociNouTenda() {
-        boolean option = true;
+        boolean option = false;
         do {
             System.out.print(textModelNegociTenda);
 
@@ -506,13 +515,14 @@ public class ManagerUI {
                     case "C", "c":
                         return "SPONSORED";
                     default:
+                        System.out.println("ERROR: Error, enter a valid letter");
                         option = false;
                 }
 
             } catch (NumberFormatException var2) {
                 System.out.println(textErrorEntrada);
             }
-        } while (option);
+        } while (!option);
 
         return "";
     }
@@ -570,13 +580,25 @@ public class ManagerUI {
                     System.out.println("   " + (i + 1) + ") " + cataleg.get(i).getName() + "\" by " + "\"" + cataleg.get(i).getBrand() + "\"");
                 }
                 System.out.println("   " + (cataleg.size() + 1) + ") Back");
-                System.out.print("\nWhich one would you like to remove? ");
+                do{
+                    System.out.print("\nWhich one would you like to remove? ");
+                    try {
+                        option = Integer.parseInt(this.scanner.nextLine());
+                        option = option - 1;
+                        if (option < cataleg.size()) {
+                            return tendes.getCatalogue().get(option);
+                        }else if(option == cataleg.size()){
+                            return null;
 
-                option = Integer.parseInt(this.scanner.nextLine());
-                option = option - 1;
-                if (option < cataleg.size()) {
-                    return tendes.getCatalogue().get(option);
-                }
+                        }else{
+                            System.out.println("Enter a number from the list");
+                        }
+                    }catch (NumberFormatException e) {
+                        System.out.println("Enter a number from the list");
+                    }
+
+                }while (true);
+
 
             }
         }
@@ -655,17 +677,22 @@ public class ManagerUI {
         }
 
         System.out.println("    " + (contador +1) + ") Back");
-        System.out.print("Which one would you like to review?");
         boolean format = false;
         int option = 0;
         do{
+            System.out.print("Which one would you like to review?");
+
             try {
                 option = Integer.parseInt(this.scanner.nextLine());
-                format = true;
+                if((contador + 1)< option){
+                    System.out.println("Enter a valid option");
+                }else{
+                    format = true;
+                }
 
             }catch (NumberFormatException e){
                 format = false;
-                System.out.print("Incorrect format, enter a number\nWhich one would you like to review?");
+                System.out.print("Incorrect format, enter a number\n");
 
             }
         }while (!format);
@@ -682,9 +709,6 @@ public class ManagerUI {
 
     }
 
-
-
-
     /**
      * Menu per indicar les opcions que te de reviews
      * @return retorna en integer la opcio elegida
@@ -692,8 +716,20 @@ public class ManagerUI {
     public int requestReviewTipo() {
         System.out.println( "   1) Read Reviews\n" +
                 "   2) Review Product");
-        System.out.print("Choose an option:");
-        return Integer.parseInt(this.scanner.nextLine());
+        do {
+            System.out.print("Choose an option:");
+            try {
+                int option = Integer.parseInt(this.scanner.nextLine());
+                if(option == 1 || option == 2){
+                    return option;
+                }else{
+                    System.out.println("Enter a valid option");
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Enter a valid option");
+            }
+        }while (true);
+
     }
 
     /**
@@ -902,12 +938,18 @@ public class ManagerUI {
         String option;
 
         System.out.print("\nAre you sure you want to " + text + "? ");
-        option = scanner.nextLine();
+        do{
 
-        if(Objects.equals(option, "YES") || Objects.equals(option, "Yes") || Objects.equals(option, "yes") || Objects.equals(option, "Y") || Objects.equals(option, "y")){
-            return true;
-        }
-        return false;
+            option = scanner.nextLine().toLowerCase();
+
+            if(Objects.equals(option, "YES") || Objects.equals(option, "Yes") || Objects.equals(option, "yes") || Objects.equals(option, "Y") || Objects.equals(option, "y")){
+                return true;
+            }else if(Objects.equals(option, "NO") || Objects.equals(option, "No") || Objects.equals(option, "no") || Objects.equals(option, "N") || Objects.equals(option, "n")) {
+                return false;
+            }
+            System.out.print("Please enter 'yes' or 'no:");
+        }while (true);
+
     }
 
     /**
