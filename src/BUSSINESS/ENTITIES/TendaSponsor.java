@@ -32,6 +32,7 @@ public class TendaSponsor extends Tenda{
      * @param anyFundacio
      * @param modelNegoci
      * @param catalogue
+     * @param sponsorBrand
      */
     public TendaSponsor(String nom, String descripcio, int anyFundacio, String modelNegoci, ArrayList<Producte> catalogue, String sponsorBrand) {
         super(nom, descripcio, anyFundacio, modelNegoci, catalogue);

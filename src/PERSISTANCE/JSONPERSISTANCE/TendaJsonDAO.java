@@ -20,7 +20,7 @@ import java.util.List;
  * Implementació de l'interfície DataPersistance per a la persistència de dades en format JSON per a les tendes.
  */
 public class TendaJsonDAO implements DataPersistanceJSON {
-    private final String path = "Tendes.json";
+    private final String path = "aTendes.json";
     private Gson gson;
     private String file = "";
 

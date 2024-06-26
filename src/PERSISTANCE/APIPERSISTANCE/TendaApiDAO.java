@@ -13,6 +13,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe que gestiona la connexió i les operacions amb una API remota.
+ */
 public class TendaApiDAO implements DataPersistanceAPI {
     private ApiHelper apiHelper;
     private String URL = "https://balandrau.salle.url.edu/dpoo/P1-G108/";
@@ -51,10 +54,10 @@ public class TendaApiDAO implements DataPersistanceAPI {
             return generic;
 
         } catch (ApiException ErrorConect) {
-            return generic;
+            return null;
 
         } catch (NullPointerException e) {
-            return generic;
+            return null;
 
         }
 
@@ -64,6 +67,7 @@ public class TendaApiDAO implements DataPersistanceAPI {
      * Guarda les dades dels productes a l'API.
      *
      * @param tendalist    Llista d'objectes tenda que es volen desar a l'API.
+     * @param producteList No s'utilitza en aquest cas.
      * @return Boolean Indoca si sha fet el guardat per api
      * @throws ApiException Si es produeix un error durant el desament de les dades a l'API.
      */
@@ -89,6 +93,12 @@ public class TendaApiDAO implements DataPersistanceAPI {
             return false;
         }
     }
+
+    /**
+     * Elimina les dades de l'API a partir d'una URL.
+     *
+     * @param url URL de l'API on es volen eliminar les dades.
+     */
 
     private void deleteInfoURL(String url) {
         try {

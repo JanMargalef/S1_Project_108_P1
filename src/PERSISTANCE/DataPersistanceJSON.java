@@ -21,9 +21,9 @@ public interface DataPersistanceJSON {
     /**
      * Guarda les dades dels productes en una font local en format JSON.
      *
-     * @param Productlist Llista d'objectes Producte que es volen desar.
-     * @param tendalist  Llista d'objectes Tenda que es volen desar.
+     * @param ProductList Llista d'objectes Producte que es volen desar.
+     * @param tendaList  Llista d'objectes Tenda que es volen desar.
      */
-    public void saveInfoJson(ArrayList<Producte> Productlist,ArrayList<Tenda> tendalist);
+    public void saveInfoJson(ArrayList<Producte> ProductList,ArrayList<Tenda> tendaList);
 
 }

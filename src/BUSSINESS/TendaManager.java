@@ -43,7 +43,7 @@ public class TendaManager {
             TendaApiDAO apiDAO = new TendaApiDAO();
             tendaDAO = apiDAO.loadInformation();
             if(tendaDAO == null) {
-                DataPersistanceJSON dataPersistance = new ProducteJsonDAO();
+                DataPersistanceJSON dataPersistance = new TendaJsonDAO();
                 tendaDAO = dataPersistance.loadInfoJson();
                 if(tendaDAO == null) {
                     apiconected = 0;
@@ -51,7 +51,6 @@ public class TendaManager {
                     apiconected = 2;
                 }
 
-                return apiconected;
             }else{
                 apiconected = 1;
 
@@ -68,9 +67,14 @@ public class TendaManager {
         }
 
         tendes.clear();
-        for (JsonObject tenda : tendaDAO) {
-            orderTendes(tenda);
+        try {
+            for (JsonObject tenda : tendaDAO) {
+                orderTendes(tenda);
+            }
+        }catch (NullPointerException e) {
+            return apiconected;
         }
+
         return apiconected;
     }
     /**
@@ -158,18 +162,21 @@ public class TendaManager {
         for (JsonElement jsonElement : jsonArray) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-            if (jsonElement.toString().contains("GENERAL")){
-                ProducteGeneral producteGeneral = new Gson().fromJson(jsonObject, ProducteGeneral.class);
-                productList.add(producteGeneral);
-
-            }else if (jsonElement.toString().contains("REDUCED")){
-                ProducteReduit producteReduit = new Gson().fromJson(jsonObject, ProducteReduit.class);
-                productList.add(producteReduit);
-
-
-            }else if (jsonElement.toString().contains("SUPER_REDUCED")){
-                ProducteSuperReduit producteSuperReduit = new Gson().fromJson(jsonObject, ProducteSuperReduit.class);
-                productList.add(producteSuperReduit);
+            switch (jsonObject.get("category").getAsString()){
+                case "GENERAL":
+                    ProducteGeneral producteGeneral = new Gson().fromJson(jsonObject, ProducteGeneral.class);
+                    productList.add(producteGeneral);
+                    break;
+                case "REDUCED":
+                    ProducteReduit producteReduit = new Gson().fromJson(jsonObject, ProducteReduit.class);
+                    productList.add(producteReduit);
+                    break;
+                case "SUPER_REDUCED":
+                    ProducteSuperReduit producteSuperReduit = new Gson().fromJson(jsonObject, ProducteSuperReduit.class);
+                    productList.add(producteSuperReduit);
+                    break;
+                default:
+                    break;
             }
 
         }

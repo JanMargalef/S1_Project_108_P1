@@ -3,42 +3,42 @@
     "name": "MaxProfit",
     "description": "Aaaa",
     "since": 2000,
-    "earnings": 145.45454,
+    "earnings": 455.45453,
     "businessModel": "MAX_PROFIT",
     "catalogue": [
       {
         "tenda": "MaxProfit",
-        "preuTenda": 50,
+        "preuTenda": 50.0,
         "name": "General",
         "brand": "Misco",
-        "mrp": 100,
+        "mrp": 100.0,
         "category": "GENERAL",
         "reviews": []
       },
       {
         "tenda": "MaxProfit",
-        "preuTenda": 80,
+        "preuTenda": 80.0,
         "name": "Reduced",
         "brand": "Jones",
-        "mrp": 200,
+        "mrp": 200.0,
         "category": "REDUCED",
         "reviews": []
       },
       {
         "tenda": "MaxProfit",
-        "preuTenda": 50,
+        "preuTenda": 50.0,
         "name": "SuperReduced",
         "brand": "Jones",
-        "mrp": 80,
+        "mrp": 80.0,
         "category": "SUPER_REDUCED",
         "reviews": []
       },
       {
         "tenda": "MaxProfit",
-        "preuTenda": 110,
+        "preuTenda": 110.0,
         "name": "SuperReduced100",
         "brand": "Misco",
-        "mrp": 120,
+        "mrp": 120.0,
         "category": "SUPER_REDUCED",
         "reviews": []
       }
@@ -49,88 +49,88 @@
     "name": "Sponsored",
     "description": "eeeee",
     "since": 2001,
-    "earnings": 66.1157,
+    "earnings": 347.02478,
     "businessModel": "SPONSORED",
     "catalogue": [
       {
         "tenda": "Sponsored",
-        "preuTenda": 80,
+        "preuTenda": 80.0,
         "name": "General",
         "brand": "Misco",
-        "mrp": 100,
+        "mrp": 100.0,
         "category": "GENERAL",
         "reviews": []
       },
       {
         "tenda": "Sponsored",
-        "preuTenda": 50,
+        "preuTenda": 50.0,
         "name": "Reduced",
         "brand": "Jones",
-        "mrp": 200,
+        "mrp": 200.0,
         "category": "REDUCED",
         "reviews": []
       },
       {
         "tenda": "Sponsored",
-        "preuTenda": 50,
+        "preuTenda": 50.0,
         "name": "SuperReduced",
         "brand": "Jones",
-        "mrp": 80,
+        "mrp": 80.0,
         "category": "SUPER_REDUCED",
         "reviews": []
       },
       {
         "tenda": "Sponsored",
-        "preuTenda": 120,
+        "preuTenda": 120.0,
         "name": "SuperReduced100",
         "brand": "Misco",
-        "mrp": 120,
+        "mrp": 120.0,
         "category": "SUPER_REDUCED",
         "reviews": []
       }
     ]
   },
   {
-    "loyaltyThreshold": 100,
+    "loyaltyThreshold": 100.0,
     "name": "Loyalty",
     "description": "sssss",
     "since": 2020,
-    "earnings": 160.33057,
+    "earnings": 361.23965,
     "businessModel": "LOYALTY",
     "catalogue": [
       {
         "tenda": "Loyalty",
-        "preuTenda": 80,
+        "preuTenda": 80.0,
         "name": "General",
         "brand": "Misco",
-        "mrp": 100,
+        "mrp": 100.0,
         "category": "GENERAL",
         "reviews": []
       },
       {
         "tenda": "Loyalty",
-        "preuTenda": 70,
+        "preuTenda": 70.0,
         "name": "Reduced",
         "brand": "Jones",
-        "mrp": 200,
+        "mrp": 200.0,
         "category": "REDUCED",
         "reviews": []
       },
       {
         "tenda": "Loyalty",
-        "preuTenda": 40,
+        "preuTenda": 40.0,
         "name": "SuperReduced",
         "brand": "Jones",
-        "mrp": 80,
+        "mrp": 80.0,
         "category": "SUPER_REDUCED",
         "reviews": []
       },
       {
         "tenda": "Loyalty",
-        "preuTenda": 110,
+        "preuTenda": 110.0,
         "name": "SuperReduced100",
         "brand": "Misco",
-        "mrp": 120,
+        "mrp": 120.0,
         "category": "SUPER_REDUCED",
         "reviews": []
       }
@@ -140,7 +140,7 @@
     "name": "a",
     "description": "a",
     "since": 1,
-    "earnings": 0,
+    "earnings": 0.0,
     "businessModel": "MAX_PROFIT",
     "catalogue": []
   }

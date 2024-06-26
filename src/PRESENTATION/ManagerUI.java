@@ -480,10 +480,10 @@ public class ManagerUI {
             System.out.print("Please enter the shop’s founding year: ");
             try {
                 option = Integer.parseInt(this.scanner.nextLine());
-                if (option >= 0) {
+                if (option >= 0 && option < 2025) {
                     return option;
                 } else {
-                    System.out.println("Number has to be positive");
+                    System.out.println("Number has to be positive and bellow 2025");
 
                 }
 
@@ -492,7 +492,7 @@ public class ManagerUI {
                 option = -1;
             }
 
-        } while (option < 0);
+        } while (!(option >= 0 && option < 2025));
         return option;
     }
 
@@ -550,12 +550,21 @@ public class ManagerUI {
      * @return El llindar de fidelitat de la botiga introduït per l'usuari com a valor de punt flotant.
      */
     public float requestLoyalty(){
-        try{
-            System.out.print("Please enter the shop’s loyalty threshold:");
-            return (Float.parseFloat(this.scanner.nextLine()));
-        }catch (NumberFormatException var2) {
-            System.out.println(textFatalError);
-        }
+        float option = -1;
+        do {
+            try{
+                System.out.print("Please enter the shop’s loyalty threshold:");
+                option= Float.parseFloat(this.scanner.nextLine());
+                if(option >= 0) {
+                    return option;
+                }else{
+                    System.out.println("Number has to be positive");
+                    option = -1;
+                }
+            }catch (NumberFormatException var2) {
+                System.out.println(textFatalError);
+            }
+        }while (!(option >= 0));
 
         return (0);
 
@@ -786,34 +795,46 @@ public class ManagerUI {
      * @return retorna un integer sen aquest entre 1 i 5 indicant el numero de estrelles
      */
     public int reviewStars() {
-        System.out.print("Please rate the product (1-5 stars):");
 
+        boolean done = false;
         do{
             try {
+                System.out.print("Please rate the product (1-5 stars):");
                 String stars = this.scanner.nextLine();
                 if((stars.length()<=5)&&(!stars.isEmpty())) {
                     switch (stars) {
                         case "*":
+                            done = true;
                             return 1;
                         case "**":
+                            done = true;
+
                             return 2;
                         case "***":
+                            done = true;
                             return 3;
                         case "****":
+                            done = true;
                             return 4;
                         case "*****":
+                            done = true;
                             return 5;
                         default:
                             System.out.println("Enter the caracter '*' for the number of stars");
-                            System.out.print("Please rate the product (1-5 stars):");
+                            done = false;
+
                             break;
                     }
+                }else{
+                    System.out.println("Enter the caracter '*' for the number of stars");
+                    done = false;
                 }
 
             }catch (Exception e){
                 System.out.println("Enter a '*'");
             }
-        }while (true);
+        }while (!done);
+        return 0;
     }
 
     /**

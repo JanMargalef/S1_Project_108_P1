@@ -19,7 +19,7 @@ import java.util.List;
  * Implementació de l'interfície DataPersistance per a la persistència de dades en format JSON per als productes.
  */
 public  class ProducteJsonDAO implements DataPersistanceJSON {
-    private final String path = "Productes.json";
+    private final String path = "aProductes.json";
     private Gson gson;  // Declarar la variable gson
 
     /**

@@ -50,7 +50,7 @@ public class ProductManager {
                 }else{
                     apiconected = 2;
                 }
-                return apiconected;
+
             }else {
                 apiconected = 1;
 
@@ -70,10 +70,15 @@ public class ProductManager {
 
         }
         productes.clear();
-        for (Object product: productesDAO) {
-            Producte producte = (Producte) product;
-            orderProducts(producte);
+        try {
+            for (Object product: productesDAO) {
+                Producte producte = (Producte) product;
+                orderProducts(producte);
+            }
+        }catch (NullPointerException e) {
+            return apiconected;
         }
+
         return apiconected;
 
     }

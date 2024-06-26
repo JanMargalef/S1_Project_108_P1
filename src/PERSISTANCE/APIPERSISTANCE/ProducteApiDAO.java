@@ -58,10 +58,10 @@ public class ProducteApiDAO implements DataPersistanceAPI {
             return generic;
 
         } catch (ApiException ErrorConect) {
-            return generic;
+            return null;
 
         } catch (NullPointerException e) {
-            return generic;
+            return null;
 
         }
 
@@ -72,7 +72,7 @@ public class ProducteApiDAO implements DataPersistanceAPI {
      * Desa les dades dels productes a l'API, eliminant les dades existents i afegint les noves.
      *
      * @param productes Llista d'objectes Producte que es volen desar a l'API.
-     * @param tendalist
+     * @param tendalist No utilitzat en aquesta implementació.
      * @return
      * @throws ApiException Si es produeix un error durant el desament de les dades a l'API.
      */
@@ -103,21 +103,15 @@ public class ProducteApiDAO implements DataPersistanceAPI {
 
     }
 
-    /**
-     * Elimina les dades d'una URL específica a l'API.
-     *
-     * @param url La URL de l'API on es volen eliminar les dades.
-     */
-
     private void deleteInfoURL(String url) {
         try {
             apiHelper.deleteFromUrl(URL + url);
-            apiHelper.postToUrl(URL + url, " ");
+            apiHelper.postToUrl(URL+url," ");
 
-        } catch (ApiException ErrorConect) {
+        }catch (ApiException ErrorConect){
 
 
-        } catch (NullPointerException e) {
+        }catch (NullPointerException e){
 
 
         }
